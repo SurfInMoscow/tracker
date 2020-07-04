@@ -29,8 +29,4 @@ public interface Issue {
     WorkflowStatus getStatus();
 
     void setStatus(WorkflowStatus status);
-
-    Issue getRootIssue();
-
-    void setRootIssue(Issue rootIssue);
 }

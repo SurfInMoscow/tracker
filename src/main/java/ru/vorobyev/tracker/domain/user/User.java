@@ -1,7 +1,14 @@
 package ru.vorobyev.tracker.domain.user;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import ru.vorobyev.tracker.domain.AbstractBaseEntity;
+import ru.vorobyev.tracker.domain.project.Project;
+
+import java.util.EnumSet;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -14,15 +21,22 @@ public class User extends AbstractBaseEntity {
 
     private String password;
 
-    public User(String name, String email, String password) {
-        this(null, name, email, password);
+    @ToString.Exclude
+    private Set<Project> projects;
+
+    private Set<Role> roles;
+
+    public User(String name, String email, String password, Set<Project> projects, Role role, Role... roles) {
+        this(null, name, email, password, projects, role, roles);
     }
 
-    public User(Integer id, String name, String email, String password) {
+    public User(Integer id, String name, String email, String password, Set<Project> projects, Role role, Role... roles) {
         super(id);
         this.name = name;
         this.email = email;
         this.password = password;
+        this.projects = projects;
+        this.roles = EnumSet.of(role, roles);
     }
 
     @Override

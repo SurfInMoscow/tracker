@@ -2,6 +2,9 @@ package ru.vorobyev.tracker.domain.project;
 
 import lombok.*;
 import ru.vorobyev.tracker.domain.AbstractBaseEntity;
+import ru.vorobyev.tracker.domain.user.User;
+
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
@@ -22,6 +25,9 @@ public class Project extends AbstractBaseEntity {
 
     @ToString.Exclude
     private Sprint sprint;
+
+    @ToString.Exclude
+    private Set<User> participants;
 
     public Project(String name, String description, String department, String manager, String administrator) {
         this(null, name, description, department, manager, administrator, new Backlog(), new Sprint());

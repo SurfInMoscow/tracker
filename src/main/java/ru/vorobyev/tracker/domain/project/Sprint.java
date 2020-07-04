@@ -1,26 +1,37 @@
 package ru.vorobyev.tracker.domain.project;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.vorobyev.tracker.domain.AbstractBaseEntity;
-import ru.vorobyev.tracker.domain.issue.Issue;
+import ru.vorobyev.tracker.domain.issue.Bug;
+import ru.vorobyev.tracker.domain.issue.Epic;
+import ru.vorobyev.tracker.domain.issue.Story;
+import ru.vorobyev.tracker.domain.issue.Task;
 
-import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @Getter
 @Setter
 public class Sprint extends AbstractBaseEntity implements ProjectIssues {
-    private List<Issue> issues;
+    private Set<Bug> bugs;
 
-    public Sprint(List<Issue> issues) {
-        this(null, issues);
+    private Set<Epic> epics;
+
+    private Set<Story> stories;
+
+    private Set<Task> tasks;
+
+    public Sprint(Set<Bug> bugs, Set<Epic> epics, Set<Story> stories, Set<Task> tasks) {
+        this(null, bugs, epics, stories, tasks);
     }
 
-    public Sprint(Integer id, List<Issue> issues) {
+    public Sprint(Integer id, Set<Bug> bugs, Set<Epic> epics, Set<Story> stories, Set<Task> tasks) {
         super(id);
-        this.issues = issues;
+        this.bugs = bugs;
+        this.epics = epics;
+        this.stories = stories;
+        this.tasks = tasks;
     }
 }

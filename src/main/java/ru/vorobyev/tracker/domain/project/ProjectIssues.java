@@ -1,11 +1,26 @@
 package ru.vorobyev.tracker.domain.project;
 
-import ru.vorobyev.tracker.domain.issue.Issue;
+import ru.vorobyev.tracker.domain.issue.Bug;
+import ru.vorobyev.tracker.domain.issue.Epic;
+import ru.vorobyev.tracker.domain.issue.Story;
+import ru.vorobyev.tracker.domain.issue.Task;
 
-import java.util.List;
+import java.util.Set;
 
 public interface ProjectIssues {
-    List<Issue> getIssues();
+    Set<Bug> getBugs();
 
-    void setIssues(List<Issue> issues);
+    void setBugs(Set<Bug> bugs);
+
+    Set<Epic> getEpics();
+
+    void setEpics(Set<Epic> epics);
+
+    Set<Story> getStories();
+
+    void setStories(Set<Story> stories);
+
+    Set<Task> getTasks();
+
+    void setTasks(Set<Task> tasks);
 }
