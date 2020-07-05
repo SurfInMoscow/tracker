@@ -7,21 +7,51 @@ import ru.vorobyev.tracker.domain.AbstractBaseEntity;
 import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.user.User;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+@Entity
 @NoArgsConstructor
 @Getter
 @Setter
 public class Backlog extends AbstractBaseEntity implements ProjectIssues, Filter {
+
+    @OneToMany(
+            mappedBy = "backlog",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
+    )
     private Set<Bug> bugs;
 
+    @OneToMany(
+            mappedBy = "backlog",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
+    )
     private Set<Epic> epics;
 
+    @OneToMany(
+            mappedBy = "backlog",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
+    )
     private Set<Story> stories;
 
+    @OneToMany(
+            mappedBy = "backlog",
+            fetch = FetchType.LAZY,
+            cascade = CascadeType.PERSIST,
+            orphanRemoval = true
+    )
     private Set<Task> tasks;
 
     public Backlog(Set<Bug> bugs, Set<Epic> epics, Set<Story> stories, Set<Task> tasks) {

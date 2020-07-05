@@ -2,12 +2,17 @@ package ru.vorobyev.tracker.domain;
 
 import lombok.*;
 
+import javax.persistence.*;
+
+@MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @ToString
 public class AbstractBaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Integer id;
 
     public boolean isNew() {

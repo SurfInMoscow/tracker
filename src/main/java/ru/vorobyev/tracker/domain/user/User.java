@@ -4,26 +4,48 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 import ru.vorobyev.tracker.domain.AbstractBaseEntity;
 import ru.vorobyev.tracker.domain.project.Project;
 
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.util.EnumSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "users")
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
 public class User extends AbstractBaseEntity {
+    @Column
+    @NotNull
+    @Size(min = 2, max = 50)
     private String name;
 
+    @Column(name = "email", unique = true)
+    @NotNull
+    @Email
+    @Size(max = 20)
     private String email;
 
+    @Column(name = "password")
+    @NotNull
+    @Size(min = 5, max = 100)
     private String password;
 
     @ToString.Exclude
     private Set<Project> projects;
 
+    @Column(name = "roles")
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
+    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 100)
     private Set<Role> roles;
 
     public User(String name, String email, String password, Set<Project> projects, Role role, Role... roles) {
