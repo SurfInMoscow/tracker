@@ -38,6 +38,7 @@ public class User extends AbstractBaseEntity {
     @Size(min = 5, max = 100)
     private String password;
 
+    @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Project> projects;
 

@@ -19,15 +19,15 @@ import java.time.LocalDateTime;
 @Setter
 public class Task extends AbstractIssue {
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_bug_id")
     private Bug rootBug;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_epic_id")
     private Epic rootEpic;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_story_id")
     private Story rootStory;
 
