@@ -88,6 +88,13 @@ create table bugs
         on delete cascade
 );
 
+create index idx_bugs_creation_date on bugs (creation_date);
+create index idx_bugs_name on bugs (name);
+create index idx_bugs_priority on bugs (priority);
+create index idx_bugs_status on bugs (status);
+create index idx_bugs_executor_id on bugs (executor_id);
+create index idx_bugs_reporter_id on bugs (reporter_id);
+
 create table epics
 (
     id            serial not null,
@@ -110,6 +117,13 @@ create table epics
     constraint fk_epics_sprint_id_sprint foreign key (sprint_id) references sprint (id)
         on delete cascade
 );
+
+create index idx_epics_creation_date on epics (creation_date);
+create index idx_epics_name on epics (name);
+create index idx_epics_priority on epics (priority);
+create index idx_epics_status on epics (status);
+create index idx_epics_executor_id on epics (executor_id);
+create index idx_epics_reporter_id on epics (reporter_id);
 
 create table stories
 (
@@ -134,6 +148,13 @@ create table stories
         on delete cascade
 );
 
+create index idx_stories_creation_date on stories (creation_date);
+create index idx_stories_name on stories (name);
+create index idx_stories_priority on stories (priority);
+create index idx_stories_status on stories (status);
+create index idx_stories_executor_id on stories (executor_id);
+create index idx_stories_reporter_id on stories (reporter_id);
+
 create table tasks
 (
     id            serial not null,
@@ -156,6 +177,13 @@ create table tasks
     constraint fk_tasks foreign key (sprint_id) references sprint (id)
         on delete cascade
 );
+
+create index idx_tasks_creation_date on tasks (creation_date);
+create index idx_tasks_name on tasks (name);
+create index idx_tasks_priority on tasks (priority);
+create index idx_tasks_status on tasks (status);
+create index idx_tasks_executor_id on tasks (executor_id);
+create index idx_tasks_reporter_id on tasks (reporter_id);
 
 alter table bugs add constraint fk_bugs_root_epic_id_epics foreign key (root_epic_id) references epics (id);
 alter table bugs add constraint fk_bugs_root_story_id_stories foreign key (root_story_id) references stories (id);

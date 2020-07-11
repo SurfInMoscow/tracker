@@ -20,6 +20,7 @@
         </encoder>
     </appender>
 
+    <logger name="org.springframework.jdbc" level="debug"/>
 
     <root level="info">
         <appender-ref ref="console"/>
