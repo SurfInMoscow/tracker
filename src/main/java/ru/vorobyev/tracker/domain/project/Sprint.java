@@ -1,7 +1,6 @@
 package ru.vorobyev.tracker.domain.project;
 
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.vorobyev.tracker.domain.AbstractBaseEntity;
 import ru.vorobyev.tracker.domain.issue.Bug;
@@ -13,10 +12,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@NoArgsConstructor
 @Getter
 @Setter
 public class Sprint extends AbstractBaseEntity implements ProjectIssues {
@@ -52,6 +51,10 @@ public class Sprint extends AbstractBaseEntity implements ProjectIssues {
             orphanRemoval = true
     )
     private Set<Task> tasks;
+
+    public Sprint() {
+        this(new HashSet<>(), new HashSet<>(), new HashSet<>(), new HashSet<>());
+    }
 
     public Sprint(Set<Bug> bugs, Set<Epic> epics, Set<Story> stories, Set<Task> tasks) {
         this(null, bugs, epics, stories, tasks);
