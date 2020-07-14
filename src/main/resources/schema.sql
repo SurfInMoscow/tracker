@@ -9,9 +9,13 @@ drop table if exists backlog;
 drop table if exists user_roles;
 drop table if exists users;
 
+drop sequence if exists global_seq;
+
+create sequence global_seq start with 100000;
+
 create table users
 (
-    id       serial not null,
+    id       integer default nextval('global_seq'),
     email    varchar(255) not null,
     name     varchar(255) not null,
     password varchar(255) not null,
@@ -29,19 +33,19 @@ create table user_roles
 
 create table backlog
 (
-    id serial not null,
+    id integer default nextval('global_seq'),
     constraint backlog_pkey primary key (id)
 );
 
 create table sprint
 (
-    id serial not null,
+    id integer default nextval('global_seq'),
     constraint sprint_pkey primary key (id)
 );
 
 create table projects
 (
-    id            serial not null,
+    id            integer default nextval('global_seq'),
     administrator varchar(255) not null,
     department    varchar(255) not null,
     description   varchar(255) not null,
@@ -67,7 +71,7 @@ create table project_users
 
 create table bugs
 (
-    id            serial not null,
+    id            integer default nextval('global_seq'),
     creation_date timestamp not null,
     name          varchar(255) not null,
     priority      integer not null,
@@ -97,7 +101,7 @@ create index idx_bugs_reporter_id on bugs (reporter_id);
 
 create table epics
 (
-    id            serial not null,
+    id            integer default nextval('global_seq'),
     creation_date timestamp not null,
     name          varchar(255) not null,
     priority      integer not null,
@@ -127,7 +131,7 @@ create index idx_epics_reporter_id on epics (reporter_id);
 
 create table stories
 (
-    id            serial not null,
+    id            integer default nextval('global_seq'),
     creation_date timestamp not null,
     name          varchar(255) not null,
     priority      integer not null,
@@ -157,7 +161,7 @@ create index idx_stories_reporter_id on stories (reporter_id);
 
 create table tasks
 (
-    id            serial not null,
+    id            integer default nextval('global_seq'),
     creation_date timestamp not null,
     name          varchar(255) not null,
     priority      integer not null,
