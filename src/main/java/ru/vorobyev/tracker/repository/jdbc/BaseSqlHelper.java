@@ -16,6 +16,7 @@ public abstract class BaseSqlHelper<T> {
 
     public BaseSqlHelper(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
+        transactionalExecute();
     }
 
     private void transactionalExecute() {
