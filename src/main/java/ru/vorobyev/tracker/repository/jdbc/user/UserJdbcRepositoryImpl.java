@@ -39,11 +39,11 @@ public class UserJdbcRepositoryImpl implements UserRepository {
             return new BaseSqlHelper<User>(connectionFactory) {
                 @Override
                 public void processing(Connection connection) throws SQLException {
-                    try (PreparedStatement ps = connection.prepareStatement("INSERT INTO users(email, name, password) VALUES (?, ?, ?)")) {
+                    try (PreparedStatement ps = connection.prepareStatement("INSERT INTO users(email, name, password) VALUES (?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
                         ps.setString(1, user.getEmail());
                         ps.setString(2, user.getName());
                         ps.setString(3, user.getPassword());
-                        ps.execute();
+                        ps.executeUpdate();
 
                         try (ResultSet generatedKeys = ps.getGeneratedKeys()) {
                             if (generatedKeys.next()) {
@@ -64,17 +64,38 @@ public class UserJdbcRepositoryImpl implements UserRepository {
             return new BaseSqlHelper<User>(connectionFactory) {
                 @Override
                 public void processing(Connection connection) throws SQLException {
+                    try (PreparedStatement ps = connection.prepareStatement("UPDATE users u SET email=?, name=?, password=? WHERE u.id=?")) {
+                        ps.setString(1, user.getEmail());
+                        ps.setString(2, user.getName());
+                        ps.setString(3, user.getPassword());
+                        ps.setInt(4, user.getId());
+                        ps.executeUpdate();
+                    }
 
+                    deleteRoles(connection, user);
+                    deleteProjectRelation(connection, user);
+                    insertRoles(connection, user);
+                    insertProjectRelation(connection, user);
+
+                    setEntity(user);
                 }
             }.getEntity();
         }
-        /*if (user.isNew()) {
-            user.setId(SEQ_GENERATOR.getAndIncrement());
-            userRepo.put(user.getId(), user);
-            return user;
-        }
+    }
 
-        return userRepo.computeIfPresent(user.getId(), (key, value) -> value = user);*/
+    private void deleteProjectRelation(Connection connection, User user) throws SQLException {
+        deleteAttribute(connection, user, "DELETE FROM project_users WHERE user_id=?");
+    }
+
+    private void deleteRoles(Connection connection, User user) throws SQLException {
+        deleteAttribute(connection, user, "DELETE FROM user_roles WHERE user_id=?");
+    }
+
+    private void deleteAttribute(Connection connection, User user, String sql) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
+            ps.setInt(1, user.getId());
+            ps.execute();
+        }
     }
 
     private void insertProjectRelation(Connection connection, User user) throws SQLException {
@@ -138,6 +159,9 @@ public class UserJdbcRepositoryImpl implements UserRepository {
             @Override
             public void processing(Connection connection) throws SQLException {
                 try (PreparedStatement ps = connection.prepareStatement("DELETE FROM users")) {
+                    ps.execute();
+                }
+                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM user_roles")) {
                     ps.execute();
                 }
             }
