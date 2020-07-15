@@ -1,5 +1,7 @@
 package ru.vorobyev.tracker.repository.jdbc.user;
 
+import ru.vorobyev.tracker.domain.project.Project;
+import ru.vorobyev.tracker.domain.user.Role;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.repository.UserRepository;
 import ru.vorobyev.tracker.repository.jdbc.BaseSqlHelper;
@@ -8,8 +10,7 @@ import ru.vorobyev.tracker.repository.jdbc.ConnectionFactory;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.sql.*;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 public class UserJdbcRepositoryImpl implements UserRepository {
 
@@ -83,6 +84,59 @@ public class UserJdbcRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
+    public boolean delete(int id) {
+        /*return userRepo.remove(id) != null;*/
+        return true;
+    }
+
+    @Override
+    public User get(int id) {
+        return new BaseSqlHelper<User>(connectionFactory) {
+            @Override
+            public void processing(Connection connection) throws SQLException {
+                try (PreparedStatement ps = connection.prepareStatement("SELECT u.id, u.email, u.name, u.password, ur.roles FROM users u" +
+                        " LEFT JOIN user_roles ur" +
+                        " ON u.id = ur.user_id " +
+                        " WHERE u.id=?")) {
+                    ps.setInt(1, id);
+                    ResultSet rs = ps.executeQuery();
+
+                    User user = addRolesToUser(rs);
+                    user = addProjectsToUser(connection, user);
+
+                    setEntity(user);
+                }
+            }
+        }.getEntity();
+    }
+
+    @Override
+    public User getByEmail(String email) {
+        /*return userRepo.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().get();*/
+        return null;
+    }
+
+    @Override
+    public List<User> getAll() {
+        /*return new ArrayList<>(userRepo.values());*/
+        return null;
+    }
+
+    public void clear() {
+        new BaseSqlHelper<User>(connectionFactory) {
+            @Override
+            public void processing(Connection connection) throws SQLException {
+                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM users")) {
+                    ps.execute();
+                }
+                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM user_roles")) {
+                    ps.execute();
+                }
+            }
+        };
+    }
+
     private void deleteProjectRelation(Connection connection, User user) throws SQLException {
         deleteAttribute(connection, user, "DELETE FROM project_users WHERE user_id=?");
     }
@@ -130,41 +184,49 @@ public class UserJdbcRepositoryImpl implements UserRepository {
         }
     }
 
-    @Override
-    public boolean delete(int id) {
-        /*return userRepo.remove(id) != null;*/
-        return true;
+    private User addRolesToUser(ResultSet rs) throws SQLException {
+        Map<Integer, User> map = new LinkedHashMap<>();
+
+        while (rs.next()) {
+            int id = Integer.parseInt(rs.getString("id"));
+            String email = rs.getString("email");
+            String name = rs.getString("name");
+            String password = rs.getString("password");
+            Role role = rs.getString("roles").equals("ROLE_USER") ? Role.ROLE_USER : Role.ROLE_ADMIN;
+            User user = new User(id, name, email, password, null, role);
+            map.putIfAbsent(user.getId(), user);
+            map.get(user.getId()).getRoles().add(role);
+        }
+
+        return map.values().iterator().next();
     }
 
-    @Override
-    public User get(int id) {
-        /*return userRepo.get(id);*/
-        return null;
-    }
+    private User addProjectsToUser(Connection connection, User user) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement("SELECT p.id, p.administrator, p.department, p.description, p.manager, p.name" +
+                " FROM projects p, project_users pu" +
+                " where p.id=pu.project_id and pu.user_id=?")) {
+            ps.setInt(1, user.getId());
+            ResultSet rs = ps.executeQuery();
 
-    @Override
-    public User getByEmail(String email) {
-        /*return userRepo.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().get();*/
-        return null;
-    }
+            while (rs.next()) {
+                int id = Integer.parseInt(rs.getString("id"));
+                String admin = rs.getString("administrator");
+                String department = rs.getString("department");
+                String description = rs.getString("description");
+                String manager = rs.getString("manager");
+                String name = rs.getString("name");
 
-    @Override
-    public List<User> getAll() {
-        /*return new ArrayList<>(userRepo.values());*/
-        return null;
-    }
-
-    public void clear() {
-        new BaseSqlHelper<User>(connectionFactory) {
-            @Override
-            public void processing(Connection connection) throws SQLException {
-                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM users")) {
-                    ps.execute();
-                }
-                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM user_roles")) {
-                    ps.execute();
+                Project project = new Project(id, name, description, department, manager, admin, null, null);
+                if (user.getProjects() == null) {
+                    Set<Project> prjct = new HashSet<>();
+                    prjct.add(project);
+                    user.setProjects(prjct);
+                } else {
+                    user.getProjects().add(project);
                 }
             }
-        };
+        }
+
+        return user;
     }
 }

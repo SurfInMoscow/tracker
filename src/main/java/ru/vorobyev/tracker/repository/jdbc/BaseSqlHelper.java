@@ -23,6 +23,7 @@ public abstract class BaseSqlHelper<T> {
         try(Connection connection = connectionFactory.getConnection()) {
             try {
                 connection.setAutoCommit(false);
+                connection.setTransactionIsolation(Connection.TRANSACTION_REPEATABLE_READ);
                 processing(connection);
                 connection.commit();
             } catch (SQLException e) {

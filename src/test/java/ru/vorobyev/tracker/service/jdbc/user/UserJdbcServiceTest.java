@@ -30,9 +30,13 @@ public class UserJdbcServiceTest {
         tmpUser.setName("New Name");
         tmpUser.getRoles().remove(Role.ROLE_ADMIN);
 
-        tmpUser = userService.save(tmpUser);
+        //tmpUser = userService.save(tmpUser);
 
         assertNotNull(tmpUser);
+    }
+
+    public void get() {
+
     }
 
 }
