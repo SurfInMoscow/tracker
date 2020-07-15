@@ -4,12 +4,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.vorobyev.tracker.domain.user.Role;
 import ru.vorobyev.tracker.domain.user.User;
+import ru.vorobyev.tracker.exception.NotExistException;
 import ru.vorobyev.tracker.repository.jdbc.user.UserJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.UserService;
 import ru.vorobyev.tracker.service.user.UserServiceImpl;
 
-import static org.junit.Assert.assertNotNull;
-import static ru.vorobyev.tracker.service.user.UserTestData.USER2;
+import static org.junit.Assert.*;
+import static ru.vorobyev.tracker.service.user.UserTestData.*;
 
 public class UserJdbcServiceTest {
 
@@ -24,19 +25,37 @@ public class UserJdbcServiceTest {
 
     @Test
     public void save() {
-        User tmpUser = userService.save(USER2);
+        User user = userService.save(USER2);
 
+        assertNotNull(user);
 
-        tmpUser.setName("New Name");
-        tmpUser.getRoles().remove(Role.ROLE_ADMIN);
+        user.setName("New Name");
+        user.getRoles().remove(Role.ROLE_ADMIN);
 
-        //tmpUser = userService.save(tmpUser);
+        user = userService.save(user);
 
-        assertNotNull(tmpUser);
+        assertEquals("New Name", userService.get(user.getId()).getName());
     }
 
+    @Test
     public void get() {
+        User user = userService.save(USER1);
 
+        user = userService.get(user.getId());
+
+        assertNotNull(user);
+
+        assertTrue(user.getRoles().contains(Role.ROLE_USER));
     }
 
+    @Test
+    public void delete() {
+        User user = userService.save(USER3);
+
+        boolean delete = userService.delete(user.getId());
+
+        assertTrue(delete);
+
+        assertThrows(NotExistException.class, () -> userService.get(user.getId()));
+    }
 }

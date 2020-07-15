@@ -3,6 +3,7 @@ package ru.vorobyev.tracker.repository.jdbc.user;
 import ru.vorobyev.tracker.domain.project.Project;
 import ru.vorobyev.tracker.domain.user.Role;
 import ru.vorobyev.tracker.domain.user.User;
+import ru.vorobyev.tracker.exception.NotExistException;
 import ru.vorobyev.tracker.repository.UserRepository;
 import ru.vorobyev.tracker.repository.jdbc.BaseSqlHelper;
 import ru.vorobyev.tracker.repository.jdbc.ConnectionFactory;
@@ -86,8 +87,23 @@ public class UserJdbcRepositoryImpl implements UserRepository {
 
     @Override
     public boolean delete(int id) {
-        /*return userRepo.remove(id) != null;*/
-        return true;
+        try {
+            User user = get(id);
+        } catch (Exception e) {
+            throw new NotExistException(String.format("User with %d not exist.", id));
+        }
+
+        return new BaseSqlHelper<User>(connectionFactory) {
+            @Override
+            public void processing(Connection connection) throws SQLException {
+                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM users WHERE id=?")) {
+                    ps.setInt(1, id);
+                    ps.execute();
+
+                    setResult(true);
+                }
+            }
+        }.isResult();
     }
 
     @Override
@@ -102,8 +118,12 @@ public class UserJdbcRepositoryImpl implements UserRepository {
                     ps.setInt(1, id);
                     ResultSet rs = ps.executeQuery();
 
+                    if (!rs.next()) {
+                        throw new NotExistException(String.format("User with %d not exist.", id));
+                    }
+
                     User user = addRolesToUser(rs);
-                    user = addProjectsToUser(connection, user);
+                    addProjectsToUser(connection, user);
 
                     setEntity(user);
                 }
@@ -128,9 +148,6 @@ public class UserJdbcRepositoryImpl implements UserRepository {
             @Override
             public void processing(Connection connection) throws SQLException {
                 try (PreparedStatement ps = connection.prepareStatement("DELETE FROM users")) {
-                    ps.execute();
-                }
-                try (PreparedStatement ps = connection.prepareStatement("DELETE FROM user_roles")) {
                     ps.execute();
                 }
             }
@@ -187,7 +204,7 @@ public class UserJdbcRepositoryImpl implements UserRepository {
     private User addRolesToUser(ResultSet rs) throws SQLException {
         Map<Integer, User> map = new LinkedHashMap<>();
 
-        while (rs.next()) {
+        do {
             int id = Integer.parseInt(rs.getString("id"));
             String email = rs.getString("email");
             String name = rs.getString("name");
@@ -196,12 +213,12 @@ public class UserJdbcRepositoryImpl implements UserRepository {
             User user = new User(id, name, email, password, null, role);
             map.putIfAbsent(user.getId(), user);
             map.get(user.getId()).getRoles().add(role);
-        }
+        } while (rs.next());
 
         return map.values().iterator().next();
     }
 
-    private User addProjectsToUser(Connection connection, User user) throws SQLException {
+    private void addProjectsToUser(Connection connection, User user) throws SQLException {
         try (PreparedStatement ps = connection.prepareStatement("SELECT p.id, p.administrator, p.department, p.description, p.manager, p.name" +
                 " FROM projects p, project_users pu" +
                 " where p.id=pu.project_id and pu.user_id=?")) {
@@ -226,7 +243,5 @@ public class UserJdbcRepositoryImpl implements UserRepository {
                 }
             }
         }
-
-        return user;
     }
 }

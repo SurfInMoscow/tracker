@@ -1,9 +1,14 @@
 package ru.vorobyev.tracker.repository.jdbc;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Set;
 
+@Getter
+@Setter
 public abstract class BaseSqlHelper<T> {
     
     private final ConnectionFactory connectionFactory;
@@ -13,6 +18,8 @@ public abstract class BaseSqlHelper<T> {
     private Set<T> entities;
     
     private int size;
+
+    private boolean result;
 
     public BaseSqlHelper(ConnectionFactory connectionFactory) {
         this.connectionFactory = connectionFactory;
@@ -35,30 +42,5 @@ public abstract class BaseSqlHelper<T> {
         }
     }
 
-
-    public T getEntity() {
-        return entity;
-    }
-
-    public void setEntity(T entity) {
-        this.entity = entity;
-    }
-
-    public Set<T> getEntities() {
-        return entities;
-    }
-
-    public void setEntities(Set<T> entities) {
-        this.entities = entities;
-    }
-
-    public int getSize() {
-        return size;
-    }
-
-    public void setSize(int size) {
-        this.size = size;
-    }
-    
     public abstract void processing(Connection connection) throws SQLException;
 }
