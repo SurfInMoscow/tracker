@@ -63,17 +63,36 @@ public class ProjectJdbcRepositoryImpl implements ProjectRepository {
             return new BaseSqlHelper<Project>(connectionFactory) {
                 @Override
                 public void processing(Connection connection) throws SQLException {
+                    try (PreparedStatement ps = connection.prepareStatement("UPDATE projects p SET administrator=?, department=?, description=?, manager=?, name=?, backlog_id=?, sprint_id=?" +
+                            " WHERE p.id=?")) {
+                        ps.setString(1, project.getAdministrator());
+                        ps.setString(2, project.getDepartment());
+                        ps.setString(3, project.getDescription());
+                        ps.setString(4, project.getManager());
+                        ps.setString(5, project.getName());
+
+                        if (project.getBacklog() != null && project.getBacklog().getId() != null) {
+                            ps.setInt(6, project.getBacklog().getId());
+                        } else {
+                            ps.setNull(6, Types.INTEGER);
+                        }
+
+                        if (project.getSprint() != null && project.getSprint().getId() != null) {
+                            ps.setInt(7, project.getSprint().getId());
+                        } else {
+                            ps.setNull(7, Types.INTEGER);
+                        }
+
+                        ps.setInt(8, project.getId());
+
+                        deleteUserRelation(connection, project);
+                        insertUserRelation(connection, project);
+
+                        setEntity(project);
+                    }
 
                 }
             }.getEntity();
-        }
-    }
-
-    private void insertUserRelation(Connection connection, Project project) throws SQLException {
-        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO project_users(project_id, user_id) VALUES (?, ?)")) {
-            project.getParticipants().forEach(user -> {
-
-            });
         }
     }
 
@@ -95,5 +114,28 @@ public class ProjectJdbcRepositoryImpl implements ProjectRepository {
     @Override
     public List<Project> getAll() {
         return null;
+    }
+
+    private void insertUserRelation(Connection connection, Project project) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement("INSERT INTO project_users(project_id, user_id) VALUES (?, ?)")) {
+            project.getParticipants().forEach(user -> {
+                try {
+                    ps.setInt(1, project.getId());
+                    ps.setInt(2, user.getId());
+                    ps.addBatch();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            ps.executeBatch();
+        }
+    }
+
+    private void deleteUserRelation(Connection connection, Project project) throws SQLException {
+        try (PreparedStatement ps = connection.prepareStatement("DELETE FROM project_users WHERE project_id=?")) {
+            ps.setInt(1, project.getId());
+            ps.execute();
+        }
     }
 }
