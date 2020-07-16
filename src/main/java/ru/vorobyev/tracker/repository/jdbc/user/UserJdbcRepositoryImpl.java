@@ -7,9 +7,8 @@ import ru.vorobyev.tracker.exception.NotExistException;
 import ru.vorobyev.tracker.repository.UserRepository;
 import ru.vorobyev.tracker.repository.jdbc.BaseSqlHelper;
 import ru.vorobyev.tracker.repository.jdbc.ConnectionFactory;
+import ru.vorobyev.tracker.repository.jdbc.DatabaseConnection;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.*;
 import java.util.*;
 
@@ -18,21 +17,7 @@ public class UserJdbcRepositoryImpl implements UserRepository {
     private final ConnectionFactory connectionFactory;
 
     public UserJdbcRepositoryImpl() {
-        Properties properties = new Properties();
-        try {
-            properties.load(new FileInputStream(this.getClass().getClassLoader().getResource("jdbc/db.properties").getFile()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            Class.forName(properties.getProperty("db.className"));
-        } catch (ClassNotFoundException e) {
-            throw new IllegalStateException(e);
-        }
-        String url = properties.getProperty("db.url");
-        String user = properties.getProperty("db.user");
-        String password = properties.getProperty("db.password");
-        this.connectionFactory = () -> DriverManager.getConnection(url, user, password);
+        this.connectionFactory = () -> DatabaseConnection.getInstance().getConnection();
     }
 
     @Override
@@ -119,10 +104,10 @@ public class UserJdbcRepositoryImpl implements UserRepository {
                     ResultSet rs = ps.executeQuery();
 
                     if (!rs.next()) {
-                        throw new NotExistException(String.format("User with %d not exist.", id));
+                        throw new NotExistException(String.format("User with ID:%d not exist.", id));
                     }
 
-                    User user = addRolesToUser(rs);
+                    User user = addRolesToUser(rs).iterator().next();
                     addProjectsToUser(connection, user);
 
                     setEntity(user);
@@ -133,14 +118,52 @@ public class UserJdbcRepositoryImpl implements UserRepository {
 
     @Override
     public User getByEmail(String email) {
-        /*return userRepo.values().stream().filter(user -> user.getEmail().equals(email)).findFirst().get();*/
-        return null;
+        return new BaseSqlHelper<User>(connectionFactory) {
+            @Override
+            public void processing(Connection connection) throws SQLException {
+                try (PreparedStatement ps = connection.prepareStatement("SELECT u.id, u.email, u.name, u.password, ur.roles FROM users u " +
+                        "LEFT JOIN user_roles ur ON u.id = ur.user_id " +
+                        "WHERE u.email=?")) {
+                    ps.setString(1, email);
+                    ResultSet rs = ps.executeQuery();
+
+                    if (!rs.next()) {
+                        throw new NotExistException(String.format("User with email:%s not exist.", email));
+                    }
+
+                    User user = addRolesToUser(rs).iterator().next();
+                    addProjectsToUser(connection, user);
+
+                    setEntity(user);
+                }
+            }
+        }.getEntity();
     }
 
     @Override
     public List<User> getAll() {
-        /*return new ArrayList<>(userRepo.values());*/
-        return null;
+         return new ArrayList<>(new BaseSqlHelper<User>(connectionFactory) {
+             @Override
+             public void processing(Connection connection) throws SQLException {
+                 try (PreparedStatement ps = connection.prepareStatement("SELECT u.id, u.email, u.name, u.password, ur.roles FROM users u " +
+                         "LEFT JOIN user_roles ur ON u.id = ur.user_id " +
+                         "ORDER BY u.name")) {
+                     ResultSet rs = ps.executeQuery();
+
+                     Set<User> users = addRolesToUser(rs);
+
+                     users.forEach(user -> {
+                         try {
+                             addProjectsToUser(connection, user);
+                         } catch (SQLException e) {
+                             e.printStackTrace();
+                         }
+                     });
+
+                     setEntities(users);
+                 }
+             }
+         }.getEntities());
     }
 
     public void clear() {
@@ -201,10 +224,10 @@ public class UserJdbcRepositoryImpl implements UserRepository {
         }
     }
 
-    private User addRolesToUser(ResultSet rs) throws SQLException {
+    private Set<User> addRolesToUser(ResultSet rs) throws SQLException {
         Map<Integer, User> map = new LinkedHashMap<>();
 
-        do {
+        if (rs.isLast()) {
             int id = Integer.parseInt(rs.getString("id"));
             String email = rs.getString("email");
             String name = rs.getString("name");
@@ -213,9 +236,20 @@ public class UserJdbcRepositoryImpl implements UserRepository {
             User user = new User(id, name, email, password, null, role);
             map.putIfAbsent(user.getId(), user);
             map.get(user.getId()).getRoles().add(role);
-        } while (rs.next());
+        } else {
+            while (rs.next()) {
+                int id = Integer.parseInt(rs.getString("id"));
+                String email = rs.getString("email");
+                String name = rs.getString("name");
+                String password = rs.getString("password");
+                Role role = rs.getString("roles").equals("ROLE_USER") ? Role.ROLE_USER : Role.ROLE_ADMIN;
+                User user = new User(id, name, email, password, null, role);
+                map.putIfAbsent(user.getId(), user);
+                map.get(user.getId()).getRoles().add(role);
+            }
+        }
 
-        return map.values().iterator().next();
+        return new HashSet<>(map.values());
     }
 
     private void addProjectsToUser(Connection connection, User user) throws SQLException {
