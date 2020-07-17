@@ -7,6 +7,7 @@ import ru.vorobyev.tracker.domain.user.User;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -71,5 +72,6 @@ public class Project extends AbstractBaseEntity {
         this.administrator = administrator;
         this.backlog = backlog;
         this.sprint = sprint;
+        this.participants = new HashSet<>();
     }
 }

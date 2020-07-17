@@ -228,28 +228,25 @@ public class UserJdbcRepositoryImpl implements UserRepository {
         Map<Integer, User> map = new LinkedHashMap<>();
 
         if (rs.isLast()) {
-            int id = Integer.parseInt(rs.getString("id"));
-            String email = rs.getString("email");
-            String name = rs.getString("name");
-            String password = rs.getString("password");
-            Role role = rs.getString("roles").equals("ROLE_USER") ? Role.ROLE_USER : Role.ROLE_ADMIN;
-            User user = new User(id, name, email, password, null, role);
-            map.putIfAbsent(user.getId(), user);
-            map.get(user.getId()).getRoles().add(role);
+            userResultSetExtractor(rs, map);
         } else {
             while (rs.next()) {
-                int id = Integer.parseInt(rs.getString("id"));
-                String email = rs.getString("email");
-                String name = rs.getString("name");
-                String password = rs.getString("password");
-                Role role = rs.getString("roles").equals("ROLE_USER") ? Role.ROLE_USER : Role.ROLE_ADMIN;
-                User user = new User(id, name, email, password, null, role);
-                map.putIfAbsent(user.getId(), user);
-                map.get(user.getId()).getRoles().add(role);
+                userResultSetExtractor(rs, map);
             }
         }
 
         return new HashSet<>(map.values());
+    }
+
+    private void userResultSetExtractor(ResultSet rs, Map<Integer, User> map) throws SQLException {
+        int id = Integer.parseInt(rs.getString("id"));
+        String email = rs.getString("email");
+        String name = rs.getString("name");
+        String password = rs.getString("password");
+        Role role = rs.getString("roles").equals("ROLE_USER") ? Role.ROLE_USER : Role.ROLE_ADMIN;
+        User user = new User(id, name, email, password, null, role);
+        map.putIfAbsent(user.getId(), user);
+        map.get(user.getId()).getRoles().add(role);
     }
 
     private void addProjectsToUser(Connection connection, User user) throws SQLException {
