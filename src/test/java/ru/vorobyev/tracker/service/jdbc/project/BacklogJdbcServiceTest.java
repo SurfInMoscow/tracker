@@ -7,10 +7,10 @@ import ru.vorobyev.tracker.repository.jdbc.project.BacklogJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.BacklogService;
 import ru.vorobyev.tracker.service.project.BacklogServiceImpl;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static ru.vorobyev.tracker.service.project.ProjectTestData.BACKLOG1;
-import static ru.vorobyev.tracker.service.project.ProjectTestData.BACKLOG2;
+import java.util.List;
+
+import static org.junit.Assert.*;
+import static ru.vorobyev.tracker.service.project.ProjectTestData.*;
 
 public class BacklogJdbcServiceTest {
 
@@ -37,5 +37,33 @@ public class BacklogJdbcServiceTest {
         Backlog backlog = backlogService.save(BACKLOG2);
 
         assertTrue(backlogService.delete(backlog.getId()));
+    }
+
+    @Test
+    public void get() {
+        Backlog backlog = backlogService.save(BACKLOG3);
+
+        assertNotNull(backlog);
+
+        assertEquals(backlog, backlogService.get(backlog.getId()));
+    }
+
+    @Test
+    public void getAll() {
+        Backlog backlog1 = new Backlog();
+        Backlog backlog2 = new Backlog();
+        Backlog backlog3 = new Backlog();
+
+       backlog1 = backlogService.save(backlog1);
+       backlog2 = backlogService.save(backlog2);
+       backlog3 = backlogService.save(backlog3);
+
+        List<Backlog> backlogs = backlogService.getAll();
+
+        assertTrue(backlogs.contains(backlog1));
+        assertTrue(backlogs.contains(backlog2));
+        assertTrue(backlogs.contains(backlog3));
+
+        backlogs.forEach(backlog -> assertNotNull(backlog.getId()));
     }
 }

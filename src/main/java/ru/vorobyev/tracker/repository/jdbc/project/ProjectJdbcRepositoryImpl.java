@@ -29,23 +29,7 @@ public class ProjectJdbcRepositoryImpl implements ProjectRepository {
                 public void processing(Connection connection) throws SQLException {
                     try (PreparedStatement ps = connection.prepareStatement("INSERT INTO projects(administrator, department, description, manager, name, backlog_id, sprint_id)" +
                             " VALUES (?, ?, ?, ?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS)) {
-                        ps.setString(1, project.getAdministrator());
-                        ps.setString(2, project.getDepartment());
-                        ps.setString(3, project.getDescription());
-                        ps.setString(4, project.getManager());
-                        ps.setString(5, project.getName());
-
-                        if (project.getBacklog() != null && project.getBacklog().getId() != null) {
-                            ps.setInt(6, project.getBacklog().getId());
-                        } else {
-                            ps.setNull(6, Types.INTEGER);
-                        }
-
-                        if (project.getSprint() != null && project.getSprint().getId() != null) {
-                            ps.setInt(7, project.getSprint().getId());
-                        } else {
-                            ps.setNull(7, Types.INTEGER);
-                        }
+                        setStatementProject(ps, project);
 
                         ps.executeUpdate();
 
@@ -69,23 +53,7 @@ public class ProjectJdbcRepositoryImpl implements ProjectRepository {
                 public void processing(Connection connection) throws SQLException {
                     try (PreparedStatement ps = connection.prepareStatement("UPDATE projects p SET administrator=?, department=?, description=?, manager=?, name=?, backlog_id=?, sprint_id=?" +
                             " WHERE p.id=?")) {
-                        ps.setString(1, project.getAdministrator());
-                        ps.setString(2, project.getDepartment());
-                        ps.setString(3, project.getDescription());
-                        ps.setString(4, project.getManager());
-                        ps.setString(5, project.getName());
-
-                        if (project.getBacklog() != null && project.getBacklog().getId() != null) {
-                            ps.setInt(6, project.getBacklog().getId());
-                        } else {
-                            ps.setNull(6, Types.INTEGER);
-                        }
-
-                        if (project.getSprint() != null && project.getSprint().getId() != null) {
-                            ps.setInt(7, project.getSprint().getId());
-                        } else {
-                            ps.setNull(7, Types.INTEGER);
-                        }
+                        setStatementProject(ps, project);
 
                         ps.setInt(8, project.getId());
 
@@ -210,6 +178,26 @@ public class ProjectJdbcRepositoryImpl implements ProjectRepository {
                 }
             }
         }.getEntities());
+    }
+
+    private void setStatementProject (PreparedStatement ps, Project project) throws SQLException {
+        ps.setString(1, project.getAdministrator());
+        ps.setString(2, project.getDepartment());
+        ps.setString(3, project.getDescription());
+        ps.setString(4, project.getManager());
+        ps.setString(5, project.getName());
+
+        if (project.getBacklog() != null && project.getBacklog().getId() != null) {
+            ps.setInt(6, project.getBacklog().getId());
+        } else {
+            ps.setNull(6, Types.INTEGER);
+        }
+
+        if (project.getSprint() != null && project.getSprint().getId() != null) {
+            ps.setInt(7, project.getSprint().getId());
+        } else {
+            ps.setNull(7, Types.INTEGER);
+        }
     }
 
     private void insertUserRelation(Connection connection, Project project) throws SQLException {
