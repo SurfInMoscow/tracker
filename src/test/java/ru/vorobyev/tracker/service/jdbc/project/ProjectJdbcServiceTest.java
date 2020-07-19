@@ -10,7 +10,8 @@ import ru.vorobyev.tracker.service.project.ProjectServiceImpl;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static ru.vorobyev.tracker.service.project.ProjectTestData.*;
+import static ru.vorobyev.tracker.service.jdbc.project.ProjectJdbcTestData.*;
+
 
 public class ProjectJdbcServiceTest {
 

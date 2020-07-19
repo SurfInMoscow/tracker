@@ -15,7 +15,8 @@ import java.util.List;
 import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.domain.user.Role.ROLE_ADMIN;
 import static ru.vorobyev.tracker.domain.user.Role.ROLE_USER;
-import static ru.vorobyev.tracker.service.user.UserTestData.*;
+import static ru.vorobyev.tracker.service.jdbc.user.UserJdbcTestData.*;
+
 
 public class UserJdbcServiceTest {
 

@@ -2,13 +2,13 @@ package ru.vorobyev.tracker.repository.inmemory.issue;
 
 import ru.vorobyev.tracker.domain.issue.Story;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.STORY_SEQ_GENERATOR;
 
 public class StoryRepositoryImpl extends AbstractIssueRepositoryImpl<Story> {
     @Override
     public Story save(Story story) {
         if (story.isNew()) {
-            story.setId(SEQ_GENERATOR.incrementAndGet());
+            story.setId(STORY_SEQ_GENERATOR.incrementAndGet());
             issueRepo.put(story.getId(), story);
             return story;
         }

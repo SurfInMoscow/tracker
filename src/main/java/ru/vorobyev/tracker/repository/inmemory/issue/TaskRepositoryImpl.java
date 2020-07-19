@@ -2,13 +2,13 @@ package ru.vorobyev.tracker.repository.inmemory.issue;
 
 import ru.vorobyev.tracker.domain.issue.Task;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.TASK_SEQ_GENERATOR;
 
 public class TaskRepositoryImpl extends AbstractIssueRepositoryImpl<Task> {
     @Override
     public Task save(Task task) {
         if (task.isNew()) {
-            task.setId(SEQ_GENERATOR.incrementAndGet());
+            task.setId(TASK_SEQ_GENERATOR.incrementAndGet());
             issueRepo.put(task.getId(), task);
             return task;
         }

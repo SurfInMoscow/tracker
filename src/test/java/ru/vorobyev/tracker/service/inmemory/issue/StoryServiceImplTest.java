@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.service.issue;
+package ru.vorobyev.tracker.service.inmemory.issue;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -6,11 +6,11 @@ import org.junit.Test;
 import ru.vorobyev.tracker.domain.issue.Story;
 import ru.vorobyev.tracker.repository.inmemory.issue.StoryRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
+import ru.vorobyev.tracker.service.issue.StoryServiceImpl;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static ru.vorobyev.tracker.service.issue.IssueTestData.*;
 
 public class StoryServiceImplTest {
 
@@ -21,13 +21,13 @@ public class StoryServiceImplTest {
     @BeforeClass
     public static void setUp() {
         storyService = new StoryServiceImpl(new StoryRepositoryImpl());
-        storyService.save(STORY1);
-        storyService.save(STORY2);
+        storyService.save(IssueTestData.STORY1);
+        storyService.save(IssueTestData.STORY2);
     }
 
     @Test
     public void save() {
-        storyService.save(STORY3);
+        storyService.save(IssueTestData.STORY3);
 
         Story tmpStory = storyService.get(103);
 

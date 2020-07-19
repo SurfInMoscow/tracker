@@ -2,13 +2,13 @@ package ru.vorobyev.tracker.repository.inmemory.issue;
 
 import ru.vorobyev.tracker.domain.issue.Bug;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.BUG_SEQ_GENERATOR;
 
 public class BugRepositoryImpl extends AbstractIssueRepositoryImpl<Bug> {
     @Override
     public Bug save(Bug bug) {
         if (bug.isNew()) {
-            bug.setId(SEQ_GENERATOR.incrementAndGet());
+            bug.setId(BUG_SEQ_GENERATOR.incrementAndGet());
             issueRepo.put(bug.getId(), bug);
             return bug;
         }

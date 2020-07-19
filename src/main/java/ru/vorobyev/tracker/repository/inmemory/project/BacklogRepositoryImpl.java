@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.BUG_SEQ_GENERATOR;
 
 @Getter
 public class BacklogRepositoryImpl implements BacklogRepository {
@@ -23,7 +23,7 @@ public class BacklogRepositoryImpl implements BacklogRepository {
     @Override
     public Backlog save(Backlog backlog) {
         if (backlog.isNew()) {
-            backlog.setId(SEQ_GENERATOR.incrementAndGet());
+            backlog.setId(BUG_SEQ_GENERATOR.incrementAndGet());
             backlogRepo.put(backlog.getId(), backlog);
             return backlog;
         }

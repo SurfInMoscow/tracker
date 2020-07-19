@@ -2,13 +2,13 @@ package ru.vorobyev.tracker.repository.inmemory.issue;
 
 import ru.vorobyev.tracker.domain.issue.Epic;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.EPIC_SEQ_GENERATOR;
 
 public class EpicRepositoryImpl extends AbstractIssueRepositoryImpl<Epic> {
     @Override
     public Epic save(Epic epic) {
         if (epic.isNew()) {
-            epic.setId(SEQ_GENERATOR.incrementAndGet());
+            epic.setId(EPIC_SEQ_GENERATOR.incrementAndGet());
             issueRepo.put(epic.getId(), epic);
             return epic;
         }

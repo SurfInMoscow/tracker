@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getPriority;
+import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getWorkflowStatus;
 import static ru.vorobyev.tracker.repository.jdbc.project.IssueTypes.*;
 
 public class BacklogJdbcRepositoryImpl implements FilterBacklogRepository {
@@ -589,9 +591,7 @@ public class BacklogJdbcRepositoryImpl implements FilterBacklogRepository {
         String priority = rs.getString("priority");
         String status = rs.getString("status");
         WorkflowStatus workflowStatus = getWorkflowStatus(status);
-        Priority bugPriority = priority.equals("LOW") ?
-                Priority.LOW : priority.equals("MEDIUM") ?
-                Priority.MEDIUM : Priority.HIGH;
+        Priority bugPriority = getPriority(priority);
 
         switch (type) {
             case BUG:
@@ -610,27 +610,6 @@ public class BacklogJdbcRepositoryImpl implements FilterBacklogRepository {
                 Task task = new Task(bugPriority, creation_date, name, null, null, workflowStatus);
                 task.setId(id);
                 return task;
-        }
-
-        return null;
-    }
-
-    private WorkflowStatus getWorkflowStatus(String status) {
-        switch (status) {
-            case "OPEN_ISSUE":
-                return WorkflowStatus.OPEN_ISSUE;
-            case "IN_PROGRESS_ISSUE":
-                return WorkflowStatus.IN_PROGRESS_ISSUE;
-            case "REVIEW_ISSUE":
-                return WorkflowStatus.REVIEW_ISSUE;
-            case "TEST_ISSUE":
-                return WorkflowStatus.TEST_ISSUE;
-            case "RESOLVED_ISSUE":
-                return WorkflowStatus.RESOLVED_ISSUE;
-            case "RE_OPENED_ISSUE":
-                return WorkflowStatus.RE_OPENED_ISSUE;
-            case "CLOSE_ISSUE":
-                return WorkflowStatus.CLOSE_ISSUE;
         }
 
         return null;

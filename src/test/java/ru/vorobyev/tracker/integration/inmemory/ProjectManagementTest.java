@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.integration;
+package ru.vorobyev.tracker.integration.inmemory;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -30,10 +30,10 @@ import ru.vorobyev.tracker.service.user.UserServiceImpl;
 
 import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus.RESOLVED_ISSUE;
-import static ru.vorobyev.tracker.service.issue.IssueTestData.TASK1;
-import static ru.vorobyev.tracker.service.project.ProjectTestData.PROJECT1;
-import static ru.vorobyev.tracker.service.user.UserTestData.USER1;
-import static ru.vorobyev.tracker.service.user.UserTestData.USER2;
+import static ru.vorobyev.tracker.integration.inmemory.IssueTestData.TASK1;
+import static ru.vorobyev.tracker.integration.inmemory.ProjectTestData.PROJECT1;
+import static ru.vorobyev.tracker.integration.inmemory.UserTestData.*;
+
 
 public class ProjectManagementTest {
 

@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.BUG_SEQ_GENERATOR;
 
 public class SprintRepositoryImpl implements SprintRepository {
 
@@ -21,7 +21,7 @@ public class SprintRepositoryImpl implements SprintRepository {
     @Override
     public Sprint save(Sprint sprint) {
         if (sprint.isNew()) {
-            sprint.setId(SEQ_GENERATOR.incrementAndGet());
+            sprint.setId(BUG_SEQ_GENERATOR.incrementAndGet());
             sprintRepo.put(sprint.getId(), sprint);
             return sprint;
         }

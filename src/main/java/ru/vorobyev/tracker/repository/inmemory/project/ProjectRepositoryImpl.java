@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.BUG_SEQ_GENERATOR;
 
 @Getter
 public class ProjectRepositoryImpl implements ProjectRepository {
@@ -23,7 +23,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Override
     public Project save(Project project) {
         if (project.isNew()) {
-            project.setId(SEQ_GENERATOR.incrementAndGet());
+            project.setId(BUG_SEQ_GENERATOR.incrementAndGet());
             projectRepo.put(project.getId(), project);
             return project;
         }

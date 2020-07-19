@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.service.issue;
+package ru.vorobyev.tracker.service.inmemory.issue;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -6,11 +6,11 @@ import org.junit.Test;
 import ru.vorobyev.tracker.domain.issue.Epic;
 import ru.vorobyev.tracker.repository.inmemory.issue.EpicRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
+import ru.vorobyev.tracker.service.issue.EpicServiceImpl;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static ru.vorobyev.tracker.service.issue.IssueTestData.*;
 
 public class EpicServiceImplTest {
 
@@ -21,13 +21,13 @@ public class EpicServiceImplTest {
     @BeforeClass
     public static void setUp() {
         epicService = new EpicServiceImpl(new EpicRepositoryImpl());
-        epicService.save(EPIC1);
-        epicService.save(EPIC2);
+        epicService.save(IssueTestData.EPIC1);
+        epicService.save(IssueTestData.EPIC2);
     }
 
     @Test
     public void save() {
-        epicService.save(EPIC3);
+        epicService.save(IssueTestData.EPIC3);
 
         Epic tmpEpic = epicService.get(103);
 

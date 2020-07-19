@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.service.issue;
+package ru.vorobyev.tracker.service.inmemory.issue;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -6,11 +6,11 @@ import org.junit.Test;
 import ru.vorobyev.tracker.domain.issue.Task;
 import ru.vorobyev.tracker.repository.inmemory.issue.TaskRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
+import ru.vorobyev.tracker.service.issue.TaskServiceImpl;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static ru.vorobyev.tracker.service.issue.IssueTestData.*;
 
 public class TaskServiceImplTest {
 
@@ -21,15 +21,14 @@ public class TaskServiceImplTest {
     @BeforeClass
     public static void setUp() {
         taskService = new TaskServiceImpl(new TaskRepositoryImpl());
-        taskService.save(TASK1);
-        taskService.save(TASK2);
+        taskService.save(IssueTestData.TASK1);
+        taskService.save(IssueTestData.TASK2);
     }
 
     @Test
     public void save() {
-        taskService.save(TASK3);
 
-        Task tmpTask = taskService.get(103);
+        Task tmpTask = taskService.save(IssueTestData.TASK3);
 
         assertNotNull(tmpTask);
 
@@ -37,22 +36,27 @@ public class TaskServiceImplTest {
 
         taskService.save(tmpTask);
 
-        assertEquals(tmpTask, taskService.get(103));
+        assertEquals(tmpTask, taskService.get(tmpTask.getId()));
     }
 
     @Test
     public void delete() {
-        assertTrue(taskService.delete(101));
+        Task task = taskService.save(IssueTestData.TASK1);
+        assertTrue(taskService.delete(task.getId()));
     }
 
     @Test
     public void get() {
-        assertNotNull(taskService.get(102));
+        Task task = taskService.save(IssueTestData.TASK2);
+
+        assertNotNull(taskService.get(task.getId()));
     }
 
     @Test
     public void getByName() {
-        Task tmpTask = taskService.getByName("Second task");
+        Task task = taskService.save(IssueTestData.TASK2);
+
+        Task tmpTask = taskService.getByName(task.getName());
 
         assertEquals("Second task", tmpTask.getName());
     }

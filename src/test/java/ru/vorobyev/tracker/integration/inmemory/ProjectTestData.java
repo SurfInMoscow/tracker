@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.service.project;
+package ru.vorobyev.tracker.integration.inmemory;
 
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.domain.project.Project;

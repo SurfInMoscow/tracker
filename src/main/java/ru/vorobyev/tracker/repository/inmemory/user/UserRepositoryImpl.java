@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.SEQ_GENERATOR;
+import static ru.vorobyev.tracker.repository.inmemory.SeqGenerator.BUG_SEQ_GENERATOR;
 
 @Getter
 public class UserRepositoryImpl implements UserRepository {
@@ -23,7 +23,7 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user) {
         if (user.isNew()) {
-            user.setId(SEQ_GENERATOR.getAndIncrement());
+            user.setId(BUG_SEQ_GENERATOR.getAndIncrement());
             userRepo.put(user.getId(), user);
             return user;
         }

@@ -1,6 +1,5 @@
 package ru.vorobyev.tracker.service.jdbc.project;
 
-import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ru.vorobyev.tracker.domain.project.Sprint;
@@ -11,7 +10,8 @@ import ru.vorobyev.tracker.service.project.SprintServiceImpl;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static ru.vorobyev.tracker.service.project.ProjectTestData.*;
+import static ru.vorobyev.tracker.service.jdbc.project.ProjectJdbcTestData.*;
+
 
 public class SprintJdbcServiceTest {
 

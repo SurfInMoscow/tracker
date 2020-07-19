@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.service.issue;
+package ru.vorobyev.tracker.service.inmemory.issue;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -6,11 +6,13 @@ import org.junit.Test;
 import ru.vorobyev.tracker.domain.issue.Bug;
 import ru.vorobyev.tracker.repository.inmemory.issue.BugRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
+import ru.vorobyev.tracker.service.issue.BugServiceImpl;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static ru.vorobyev.tracker.service.issue.IssueTestData.*;
+import static ru.vorobyev.tracker.service.inmemory.issue.IssueTestData.BUG2;
+import static ru.vorobyev.tracker.service.inmemory.issue.IssueTestData.BUG3;
 
 public class BugServiceImplTest {
 
@@ -21,15 +23,16 @@ public class BugServiceImplTest {
     @BeforeClass
     public static void setUp() {
         bugService = new BugServiceImpl(new BugRepositoryImpl());
-        bugService.save(BUG1);
-        bugService.save(BUG2);
+        bugService.save(IssueTestData.BUG1);
+        bugService.save(IssueTestData.BUG2);
     }
 
     @Test
     public void save() {
-        bugService.save(BUG3);
+        Bug bug = new Bug(BUG3);
+        bugService.save(bug);
 
-        Bug tmpBug = bugService.get(103);
+        Bug tmpBug = bugService.save(bug);
 
         assertNotNull(tmpBug);
 
@@ -37,7 +40,7 @@ public class BugServiceImplTest {
 
         bugService.save(tmpBug);
 
-        assertEquals(tmpBug, bugService.get(103));
+        assertEquals(tmpBug, bugService.get(tmpBug.getId()));
     }
 
     @Test
@@ -49,7 +52,10 @@ public class BugServiceImplTest {
 
     @Test
     public void get() {
-        Bug tmpBug = bugService.get(102);
+        Bug bug = bugService.save(new Bug(BUG2));
+
+        Bug tmpBug = bugService.get(bug.getId());
+
         assertEquals("Second bug", tmpBug.getName());
     }
 

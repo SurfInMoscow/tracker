@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.service.user;
+package ru.vorobyev.tracker.service.inmemory.user;
 
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -6,11 +6,11 @@ import org.junit.Test;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.repository.inmemory.user.UserRepositoryImpl;
 import ru.vorobyev.tracker.service.UserService;
+import ru.vorobyev.tracker.service.user.UserServiceImpl;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static ru.vorobyev.tracker.service.user.UserTestData.*;
 
 public class UserServiceImplTest {
     private static UserService userService;
@@ -20,13 +20,13 @@ public class UserServiceImplTest {
     @BeforeClass
     public static void setUp() {
         userService = new UserServiceImpl(new UserRepositoryImpl());
-        userService.save(USER1);
-        userService.save(USER2);
+        userService.save(UserTestData.USER1);
+        userService.save(UserTestData.USER2);
     }
 
     @Test
     public void save() {
-        User tmpUser = userService.save(USER3);
+        User tmpUser = userService.save(new User());
 
         assertNotNull(tmpUser);
 
@@ -39,12 +39,13 @@ public class UserServiceImplTest {
 
     @Test
     public void delete() {
-        assertTrue(userService.delete(101));
+        User tmpUser = userService.save(UserTestData.USER3);
+        assertTrue(userService.delete(tmpUser.getId()));
     }
 
     @Test
     public void get() {
-        User tmpUser = userService.save(USER1);
+        User tmpUser = userService.save(UserTestData.USER1);
 
         assertNotNull(tmpUser.getId());
     }
