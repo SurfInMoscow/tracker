@@ -4,7 +4,7 @@ import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.exception.NotExistException;
-import ru.vorobyev.tracker.repository.FilterBacklogRepository;
+import ru.vorobyev.tracker.repository.BacklogRepository;
 import ru.vorobyev.tracker.repository.jdbc.BaseSqlHelper;
 import ru.vorobyev.tracker.repository.jdbc.ConnectionFactory;
 import ru.vorobyev.tracker.repository.jdbc.DatabaseConnection;
@@ -20,7 +20,7 @@ import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getPriority;
 import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getWorkflowStatus;
 import static ru.vorobyev.tracker.repository.jdbc.project.IssueTypes.*;
 
-public class BacklogJdbcRepositoryImpl implements FilterBacklogRepository {
+public class BacklogJdbcRepositoryImpl implements BacklogRepository {
 
     private final ConnectionFactory connectionFactory;
 

@@ -19,7 +19,7 @@ public class BacklogServiceImplTest {
 
     @BeforeClass
     public static void setUp() {
-        backlogService = new BacklogServiceImpl(new BacklogRepositoryImpl());
+        backlogService = new BacklogServiceImpl((new BacklogRepositoryImpl()));
     }
 
     @Test

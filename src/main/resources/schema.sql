@@ -189,18 +189,18 @@ create index idx_tasks_status on tasks (status);
 create index idx_tasks_executor_id on tasks (executor_id);
 create index idx_tasks_reporter_id on tasks (reporter_id);
 
-alter table bugs add constraint fk_bugs_root_epic_id_epics foreign key (root_epic_id) references epics (id);
-alter table bugs add constraint fk_bugs_root_story_id_stories foreign key (root_story_id) references stories (id);
-alter table bugs add constraint fk_bugs_root_task_id_tasks foreign key (root_task_id) references tasks (id);
+alter table bugs add constraint fk_bugs_root_epic_id_epics foreign key (root_epic_id) references epics (id) on delete cascade;
+alter table bugs add constraint fk_bugs_root_story_id_stories foreign key (root_story_id) references stories (id) on delete cascade;
+alter table bugs add constraint fk_bugs_root_task_id_tasks foreign key (root_task_id) references tasks (id) on delete cascade;
 
-alter table epics add constraint fk_epics_root_bug_id_bugs foreign key (root_bug_id) references bugs (id);
-alter table epics add constraint fk_epics_root_story_id_stories foreign key (root_story_id) references stories (id);
-alter table epics add constraint fk_epics_task_id_tasks foreign key (root_task_id) references tasks (id);
+alter table epics add constraint fk_epics_root_bug_id_bugs foreign key (root_bug_id) references bugs (id) on delete cascade;
+alter table epics add constraint fk_epics_root_story_id_stories foreign key (root_story_id) references stories (id) on delete cascade;
+alter table epics add constraint fk_epics_task_id_tasks foreign key (root_task_id) references tasks (id) on delete cascade;
 
-alter table stories add constraint fk_stories_root_bug_id_bugs foreign key (root_bug_id) references bugs (id);
-alter table stories add constraint fk_stories_root_epic_id_epics foreign key (root_epic_id) references epics (id);
-alter table stories add constraint fk_stories_task_id_tasks foreign key (root_task_id) references tasks (id);
+alter table stories add constraint fk_stories_root_bug_id_bugs foreign key (root_bug_id) references bugs (id) on delete cascade;
+alter table stories add constraint fk_stories_root_epic_id_epics foreign key (root_epic_id) references epics (id) on delete cascade;
+alter table stories add constraint fk_stories_task_id_tasks foreign key (root_task_id) references tasks (id) on delete cascade;
 
-alter table tasks add constraint fk_tasks_root_bug_id_bugs foreign key (root_bug_id) references bugs (id);
-alter table tasks add constraint fk_tasks_root_epic_id_epics foreign key (root_epic_id) references epics (id);
-alter table tasks add constraint fk_tasks_root_story_id_stories foreign key (root_story_id) references stories (id);
+alter table tasks add constraint fk_tasks_root_bug_id_bugs foreign key (root_bug_id) references bugs (id) on delete cascade;
+alter table tasks add constraint fk_tasks_root_epic_id_epics foreign key (root_epic_id) references epics (id) on delete cascade;
+alter table tasks add constraint fk_tasks_root_story_id_stories foreign key (root_story_id) references stories (id) on delete cascade;

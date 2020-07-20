@@ -2,10 +2,7 @@ package ru.vorobyev.tracker.integration.jdbc;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import ru.vorobyev.tracker.domain.issue.Bug;
-import ru.vorobyev.tracker.domain.issue.Epic;
-import ru.vorobyev.tracker.domain.issue.Story;
-import ru.vorobyev.tracker.domain.issue.Task;
+import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.domain.project.Project;
@@ -29,8 +26,9 @@ import ru.vorobyev.tracker.service.project.ProjectServiceImpl;
 import ru.vorobyev.tracker.service.project.SprintServiceImpl;
 import ru.vorobyev.tracker.service.user.UserServiceImpl;
 
-import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.integration.jdbc.IssueTestData.*;
@@ -204,6 +202,62 @@ public class JdbcProjectManagementTest {
         story1 = storyIssueService.save(story1);
 
         assertEquals(epic1.getId(), story1.getRootEpic().getId());
+    }
+
+    @Test
+    public void filterBacklog() {
+        Backlog backlog = backlogService.save(BACKLOG3);
+
+        assertNotNull(backlog.getId());
+
+        Bug bug1 = new Bug(BUG1);
+        bug1.setBacklog(backlog);
+        bug1.setCreationDate(LocalDateTime.of(2020, 5, 23, 19, 0));
+        Bug bug2 = new Bug(BUG2);
+        bug2.setBacklog(backlog);
+        bug2.setCreationDate(LocalDateTime.of(2020, 6, 23, 19, 0));
+        Bug bug3 = new Bug(BUG3);
+        bug3.setBacklog(backlog);
+        bug3.setCreationDate(LocalDateTime.of(2020, 7, 23, 19, 0));
+        Epic epic1 = new Epic(EPIC1);
+        epic1.setBacklog(backlog);
+        epic1.setCreationDate(LocalDateTime.of(2020, 5, 23, 19, 0));
+        Epic epic2 = new Epic(EPIC2);
+        epic2.setBacklog(backlog);
+        epic2.setCreationDate(LocalDateTime.of(2020, 6, 23, 19, 0));
+        Epic epic3 = new Epic(EPIC3);
+        epic3.setBacklog(backlog);
+        epic3.setCreationDate(LocalDateTime.of(2020, 7, 23, 19, 0));
+        Story story1 = new Story(STORY1);
+        story1.setBacklog(backlog);
+        story1.setCreationDate(LocalDateTime.of(2020, 5, 23, 19, 0));
+        Story story2 = new Story(STORY2);
+        story2.setBacklog(backlog);
+        story2.setCreationDate(LocalDateTime.of(2020, 6, 23, 19, 0));
+        Story story3 = new Story(STORY3);
+        story3.setBacklog(backlog);
+        story3.setCreationDate(LocalDateTime.of(2020, 7, 23, 19, 0));
+
+        bugIssueService.save(bug1);
+        bugIssueService.save(bug2);
+        bugIssueService.save(bug3);
+        epicIssueService.save(epic1);
+        epicIssueService.save(epic2);
+        epicIssueService.save(epic3);
+        storyIssueService.save(story1);
+        storyIssueService.save(story2);
+        storyIssueService.save(story3);
+
+        LocalDateTime start = LocalDateTime.of(2020, 5, 23, 21, 0);
+        LocalDateTime end = LocalDateTime.of(2020, 6, 23, 23, 0);
+        backlog = backlogService.getWithIssuesBetweenDates(backlog.getId(), start, end);
+
+        Set<Issue> issues = new HashSet<>();
+        issues.addAll(backlog.getBugs());
+        issues.addAll(backlog.getEpics());
+        issues.addAll(backlog.getStories());
+
+        issues.forEach(i -> {assertTrue(i.getCreationDate().isAfter(start) && i.getCreationDate().isBefore(end));});
     }
 
     @Test
