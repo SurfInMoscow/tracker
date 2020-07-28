@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.project;
 
+import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Backlog;
@@ -20,6 +21,7 @@ import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getPriority;
 import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getWorkflowStatus;
 import static ru.vorobyev.tracker.repository.jdbc.project.IssueTypes.*;
 
+@Repository
 public class BacklogJdbcRepositoryImpl implements BacklogRepository {
 
     private final ConnectionFactory connectionFactory;

@@ -2,6 +2,8 @@ package ru.vorobyev.tracker.integration.jdbc;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Backlog;
@@ -17,14 +19,6 @@ import ru.vorobyev.tracker.repository.jdbc.project.ProjectJdbcRepositoryImpl;
 import ru.vorobyev.tracker.repository.jdbc.project.SprintJdbcRepositoryImpl;
 import ru.vorobyev.tracker.repository.jdbc.user.UserJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.*;
-import ru.vorobyev.tracker.service.issue.BugServiceImpl;
-import ru.vorobyev.tracker.service.issue.EpicServiceImpl;
-import ru.vorobyev.tracker.service.issue.StoryServiceImpl;
-import ru.vorobyev.tracker.service.issue.TaskServiceImpl;
-import ru.vorobyev.tracker.service.project.BacklogServiceImpl;
-import ru.vorobyev.tracker.service.project.ProjectServiceImpl;
-import ru.vorobyev.tracker.service.project.SprintServiceImpl;
-import ru.vorobyev.tracker.service.user.UserServiceImpl;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -36,49 +30,49 @@ import static ru.vorobyev.tracker.integration.jdbc.ProjectTestData.*;
 import static ru.vorobyev.tracker.integration.jdbc.UserTestData.*;
 
 
-public class JdbcProjectManagementTest {
+public class JdbcProjectManagementTest extends AbstractJdbcServiceTest {
 
-    private static UserService userService;
+    @Autowired
+    public UserService userService;
 
-    private static ProjectService projectService;
+    @Autowired
+    public ProjectService projectService;
 
-    private static BacklogService backlogService;
+    @Autowired
+    public BacklogService backlogService;
 
-    private static SprintService sprintService;
+    @Autowired
+    public SprintService sprintService;
 
-    private static IssueService<Bug> bugIssueService;
+    @Autowired
+    public IssueService<Bug> bugIssueService;
 
-    private static IssueService<Epic> epicIssueService;
+    @Autowired
+    public IssueService<Epic> epicIssueService;
 
-    private static IssueService<Story> storyIssueService;
+    @Autowired
+    public IssueService<Story> storyIssueService;
 
-    private static IssueService<Task> taskIssueService;
+    @Autowired
+    public IssueService<Task> taskIssueService;
 
     @BeforeClass
     public static void setUp() {
         UserJdbcRepositoryImpl userRepository = new UserJdbcRepositoryImpl();
-        userService = new UserServiceImpl(userRepository);
         userRepository.clear();
         ProjectJdbcRepositoryImpl projectRepository = new ProjectJdbcRepositoryImpl();
-        projectService = new ProjectServiceImpl(projectRepository);
         projectRepository.clear();
         BacklogJdbcRepositoryImpl backlogRepository = new BacklogJdbcRepositoryImpl();
-        backlogService = new BacklogServiceImpl(backlogRepository);
         backlogRepository.clear();
         SprintJdbcRepositoryImpl sprintRepository = new SprintJdbcRepositoryImpl();
-        sprintService = new SprintServiceImpl(sprintRepository);
         sprintRepository.clear();
         StoryJdbcRepositoryImpl storyRepository = new StoryJdbcRepositoryImpl();
-        storyIssueService = new StoryServiceImpl(storyRepository);
         storyRepository.clear();
         BugJdbcRepositoryImpl bugRepository = new BugJdbcRepositoryImpl();
-        bugIssueService = new BugServiceImpl(bugRepository);
         bugRepository.clear();
         EpicJdbcRepositoryImpl epicRepository = new EpicJdbcRepositoryImpl();
-        epicIssueService = new EpicServiceImpl(epicRepository);
         epicRepository.clear();
         TaskJdbcRepositoryImpl taskRepository = new TaskJdbcRepositoryImpl();
-        taskIssueService = new TaskServiceImpl(taskRepository);
         taskRepository.clear();
     }
 

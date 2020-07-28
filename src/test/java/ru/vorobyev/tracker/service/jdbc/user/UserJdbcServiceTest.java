@@ -2,12 +2,13 @@ package ru.vorobyev.tracker.service.jdbc.user;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.user.Role;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.exception.NotExistException;
 import ru.vorobyev.tracker.repository.jdbc.user.UserJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.UserService;
-import ru.vorobyev.tracker.service.user.UserServiceImpl;
 
 import java.util.HashSet;
 import java.util.List;
@@ -18,14 +19,14 @@ import static ru.vorobyev.tracker.domain.user.Role.ROLE_USER;
 import static ru.vorobyev.tracker.service.jdbc.user.UserJdbcTestData.*;
 
 
-public class UserJdbcServiceTest {
+public class UserJdbcServiceTest extends AbstractJdbcServiceTest {
 
-    private static UserService userService;
+    @Autowired
+    public UserService userService;
 
     @BeforeClass
     public static void setUp() {
         UserJdbcRepositoryImpl userRepository = new UserJdbcRepositoryImpl();
-        userService = new UserServiceImpl(userRepository);
         userRepository.clear();
     }
 

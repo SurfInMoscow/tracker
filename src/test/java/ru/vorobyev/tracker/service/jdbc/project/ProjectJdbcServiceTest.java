@@ -2,10 +2,11 @@ package ru.vorobyev.tracker.service.jdbc.project;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.project.Project;
 import ru.vorobyev.tracker.repository.jdbc.project.ProjectJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.ProjectService;
-import ru.vorobyev.tracker.service.project.ProjectServiceImpl;
 
 import java.util.List;
 
@@ -13,14 +14,14 @@ import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.service.jdbc.project.ProjectJdbcTestData.*;
 
 
-public class ProjectJdbcServiceTest {
+public class ProjectJdbcServiceTest extends AbstractJdbcServiceTest {
 
-    private static ProjectService projectService;
+    @Autowired
+    public ProjectService projectService;
 
     @BeforeClass
     public static void setUp() {
         ProjectJdbcRepositoryImpl projectRepository = new ProjectJdbcRepositoryImpl();
-        projectService = new ProjectServiceImpl(projectRepository);
         projectRepository.clear();
     }
 

@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.project;
 
+import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Sprint;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 import static ru.vorobyev.tracker.repository.jdbc.project.IssueTypes.*;
 
+@Repository
 public class SprintJdbcRepositoryImpl implements SprintRepository {
 
     private final ConnectionFactory connectionFactory;

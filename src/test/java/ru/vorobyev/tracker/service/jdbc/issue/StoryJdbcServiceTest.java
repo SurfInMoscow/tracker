@@ -2,10 +2,11 @@ package ru.vorobyev.tracker.service.jdbc.issue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.issue.Story;
 import ru.vorobyev.tracker.repository.jdbc.issue.StoryJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
-import ru.vorobyev.tracker.service.issue.StoryServiceImpl;
 
 import java.util.List;
 
@@ -13,14 +14,14 @@ import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.service.jdbc.issue.IssueJdbcTestData.*;
 
 
-public class StoryJdbcServiceTest {
-    
-    private static IssueService<Story> issueStoryService;
+public class StoryJdbcServiceTest extends AbstractJdbcServiceTest {
+
+    @Autowired
+    public IssueService<Story> issueStoryService;
 
     @BeforeClass
     public static void setUp() {
         StoryJdbcRepositoryImpl storyJdbcRepository = new StoryJdbcRepositoryImpl();
-        issueStoryService = new StoryServiceImpl(storyJdbcRepository);
         storyJdbcRepository.clear();
     }
 

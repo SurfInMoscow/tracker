@@ -1,5 +1,7 @@
 package ru.vorobyev.tracker.service.project;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.repository.BacklogRepository;
 import ru.vorobyev.tracker.service.BacklogService;
@@ -7,10 +9,12 @@ import ru.vorobyev.tracker.service.BacklogService;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Service
 public class BacklogServiceImpl implements BacklogService {
 
     private BacklogRepository backlogRepository;
 
+    @Autowired
     public BacklogServiceImpl(BacklogRepository backlogRepository) {
         this.backlogRepository = backlogRepository;
     }

@@ -2,23 +2,25 @@ package ru.vorobyev.tracker.service.jdbc.issue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.issue.Epic;
 import ru.vorobyev.tracker.repository.jdbc.issue.EpicJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
-import ru.vorobyev.tracker.service.issue.EpicServiceImpl;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.service.jdbc.issue.IssueJdbcTestData.*;
 
-public class EpicJdbcServiceTest {
-    private static IssueService<Epic> issueEpicService;
+public class EpicJdbcServiceTest extends AbstractJdbcServiceTest {
+
+    @Autowired
+    public IssueService<Epic> issueEpicService;
 
     @BeforeClass
     public static void setUp() {
         EpicJdbcRepositoryImpl epicJdbcRepository = new EpicJdbcRepositoryImpl();
-        issueEpicService = new EpicServiceImpl(epicJdbcRepository);
         epicJdbcRepository.clear();
     }
 

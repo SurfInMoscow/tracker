@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.user;
 
+import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.project.Project;
 import ru.vorobyev.tracker.domain.user.Role;
 import ru.vorobyev.tracker.domain.user.User;
@@ -12,6 +13,7 @@ import ru.vorobyev.tracker.repository.jdbc.DatabaseConnection;
 import java.sql.*;
 import java.util.*;
 
+@Repository
 public class UserJdbcRepositoryImpl implements UserRepository {
 
     private final ConnectionFactory connectionFactory;

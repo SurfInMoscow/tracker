@@ -1,15 +1,19 @@
 package ru.vorobyev.tracker.service.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.repository.UserRepository;
 import ru.vorobyev.tracker.service.UserService;
 
 import java.util.List;
 
+@Service
 public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
+    @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }

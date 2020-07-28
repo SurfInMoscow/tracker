@@ -2,24 +2,25 @@ package ru.vorobyev.tracker.service.jdbc.issue;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.issue.Task;
 import ru.vorobyev.tracker.repository.jdbc.issue.TaskJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
-import ru.vorobyev.tracker.service.issue.TaskServiceImpl;
 
 import java.util.List;
 
 import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.service.jdbc.issue.IssueJdbcTestData.*;
 
-public class TaskJdbcServiceTest {
+public class TaskJdbcServiceTest extends AbstractJdbcServiceTest {
 
-    private static IssueService<Task> issueTaskService;
+    @Autowired
+    public IssueService<Task> issueTaskService;
 
     @BeforeClass
     public static void setUp() {
         TaskJdbcRepositoryImpl taskJdbcRepository = new TaskJdbcRepositoryImpl();
-        issueTaskService = new TaskServiceImpl(taskJdbcRepository);
         taskJdbcRepository.clear();
     }
 

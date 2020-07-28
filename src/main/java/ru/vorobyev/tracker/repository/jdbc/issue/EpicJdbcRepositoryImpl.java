@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.issue;
 
+import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Backlog;
@@ -21,6 +22,7 @@ import java.util.Set;
 import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getPriority;
 import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getWorkflowStatus;
 
+@Repository
 public class EpicJdbcRepositoryImpl implements IssueRepository<Epic> {
 
     private final ConnectionFactory connectionFactory;

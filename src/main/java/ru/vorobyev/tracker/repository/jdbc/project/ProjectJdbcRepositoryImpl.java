@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.project;
 
+import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.domain.project.Project;
 import ru.vorobyev.tracker.domain.project.Sprint;
@@ -13,6 +14,7 @@ import ru.vorobyev.tracker.repository.jdbc.DatabaseConnection;
 import java.sql.*;
 import java.util.*;
 
+@Repository
 public class ProjectJdbcRepositoryImpl implements ProjectRepository {
 
     private final ConnectionFactory connectionFactory;

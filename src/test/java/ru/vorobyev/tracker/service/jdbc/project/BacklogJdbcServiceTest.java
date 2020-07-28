@@ -2,10 +2,11 @@ package ru.vorobyev.tracker.service.jdbc.project;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.repository.jdbc.project.BacklogJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.BacklogService;
-import ru.vorobyev.tracker.service.project.BacklogServiceImpl;
 
 import java.util.List;
 
@@ -13,14 +14,14 @@ import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.service.jdbc.project.ProjectJdbcTestData.*;
 
 
-public class BacklogJdbcServiceTest {
+public class BacklogJdbcServiceTest extends AbstractJdbcServiceTest {
 
-    private static BacklogService backlogService;
+    @Autowired
+    public BacklogService backlogService;
 
     @BeforeClass
     public static void setUp() {
         BacklogJdbcRepositoryImpl backlogRepository = new BacklogJdbcRepositoryImpl();
-        backlogService = new BacklogServiceImpl(backlogRepository);
         backlogRepository.clear();
     }
 
