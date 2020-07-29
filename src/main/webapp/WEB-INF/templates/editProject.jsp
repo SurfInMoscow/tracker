@@ -113,10 +113,14 @@
 <div class="fixed-top">
     <c:choose>
         <c:when test="${project.administrator eq user.email or project.manager eq user.email}">
-            <button type="button" class="btn btn-info" style="position: absolute; left: 17px; top: 250px;">Пригласить</button>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userInviteModal"
+                    style="position: absolute; left: 17px; top: 250px;">Пригласить
+            </button>
         </c:when>
         <c:when test="${project.administrator ne user.email and project.manager ne user.email}">
-            <button type="button" class="btn btn-info" style="position: absolute; left: 17px; top: 250px;" disabled>Пригласить</button>
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userInviteModal"
+                    style="position: absolute; left: 17px; top: 250px;" disabled>Пригласить
+            </button>
         </c:when>
     </c:choose>
 </div>
@@ -315,14 +319,20 @@
                             <c:choose>
                                 <c:when test="${project.administrator eq user.email or project.manager eq user.email}">
                                     <td>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal">
-                                            Удалить
-                                        </button>
+                                        <form action="projects" method="get">
+                                            <input type="hidden" name="id" value="${project.id}">
+                                            <input type="hidden" name="user_email" value="${users.email}">
+                                            <input type="hidden" name="action" value="dropuser">
+                                            <button type="submit" class="btn btn-warning btn-sm" data-toggle="modal">
+                                                Удалить
+                                            </button>
+                                        </form>
                                     </td>
                                 </c:when>
                                 <c:when test="${project.administrator ne user.email and project.manager ne user.email}">
                                     <td>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" disabled>
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal"
+                                                disabled>
                                             Удалить
                                         </button>
                                     </td>
@@ -333,6 +343,32 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="userInviteModal">
+    <div class="modal-dialog modal-sm" style="position: absolute; top: 220px; left: 140px">
+        <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <p class="modal-title">Добавить пользователя</p>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="projects" method="post">
+                        <div class="form-group">
+                            <label for="userEmail">Email</label>
+                            <input type="hidden" name="id" value="${project.id}">
+                            <input type="email" name="user_email" class="form-control" id="userEmail"
+                                   aria-describedby="emailHelp">
+                        </div>
+                        <br>
+                        <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal">Закрыть</button>
+                        <button type="submit" class="btn btn-danger btn-sm">Сохранить</button>
+                    </form>
+                </div>
         </div>
     </div>
 </div>
