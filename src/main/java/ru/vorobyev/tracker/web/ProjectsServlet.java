@@ -1,7 +1,7 @@
 package ru.vorobyev.tracker.web;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.vorobyev.tracker.config.TrackerSpringConfig;
+import ru.vorobyev.tracker.config.TrackerConfig;
 import ru.vorobyev.tracker.domain.issue.AbstractIssue;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.domain.project.Project;
@@ -32,7 +32,7 @@ public class ProjectsServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        AnnotationConfigApplicationContext apCtx = new AnnotationConfigApplicationContext(TrackerSpringConfig.class);
+        AnnotationConfigApplicationContext apCtx = new AnnotationConfigApplicationContext(TrackerConfig.class);
         projectService = apCtx.getBean(ProjectService.class);
         userService = apCtx.getBean(UserService.class);
         backlogService = apCtx.getBean(BacklogService.class);

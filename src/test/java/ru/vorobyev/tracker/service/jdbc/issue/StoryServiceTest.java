@@ -3,10 +3,10 @@ package ru.vorobyev.tracker.service.jdbc.issue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.issue.Story;
 import ru.vorobyev.tracker.repository.jdbc.issue.StoryJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.IssueService;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 
 import java.util.List;
 
@@ -14,10 +14,10 @@ import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.service.jdbc.issue.IssueJdbcTestData.*;
 
 
-public class StoryJdbcServiceTest extends AbstractJdbcServiceTest {
+public class StoryServiceTest extends AbstractJdbcServiceTest {
 
     @Autowired
-    public IssueService<Story> issueStoryService;
+    private IssueService<Story> issueStoryService;
 
     @BeforeClass
     public static void setUp() {

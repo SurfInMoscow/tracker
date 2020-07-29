@@ -1,11 +1,7 @@
 package ru.vorobyev.tracker;
 
-import org.junit.runner.RunWith;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-import ru.vorobyev.tracker.config.TrackerSpringConfig;
+import org.springframework.test.context.ActiveProfiles;
 
-@RunWith(SpringRunner.class)
-@ContextConfiguration(classes = TrackerSpringConfig.class)
-public abstract class AbstractJdbcServiceTest {
+@ActiveProfiles("jdbc")
+public abstract class AbstractJdbcServiceTest extends AbstractServiceTest {
 }

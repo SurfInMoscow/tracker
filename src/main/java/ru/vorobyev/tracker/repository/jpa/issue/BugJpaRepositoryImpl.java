@@ -1,11 +1,21 @@
 package ru.vorobyev.tracker.repository.jpa.issue;
 
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vorobyev.tracker.domain.issue.Bug;
 import ru.vorobyev.tracker.repository.IssueRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Repository
+@Transactional(readOnly = true)
 public class BugJpaRepositoryImpl implements IssueRepository<Bug> {
+
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public Bug save(Bug bug) {
         return null;
@@ -31,5 +41,5 @@ public class BugJpaRepositoryImpl implements IssueRepository<Bug> {
         return null;
     }
 
-    public void clear() {}
+    public void refresh() {}
 }

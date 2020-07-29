@@ -1,11 +1,23 @@
 package ru.vorobyev.tracker.repository.jpa.issue;
 
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vorobyev.tracker.domain.issue.Epic;
 import ru.vorobyev.tracker.repository.IssueRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Profile("jpa")
+@Repository
+@Transactional(readOnly = true)
 public class EpicJpaRepositoryImpl implements IssueRepository<Epic> {
+
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public Epic save(Epic epic) {
         return null;
@@ -31,5 +43,5 @@ public class EpicJpaRepositoryImpl implements IssueRepository<Epic> {
         return null;
     }
 
-    public void clear() {}
+    public void refresh() {}
 }

@@ -15,6 +15,11 @@ import javax.validation.constraints.Size;
 import java.util.EnumSet;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
+        @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=:email"),
+        @NamedQuery(name = User.GET_ALL, query = "SELECT u FROM User u ORDER BY u.name, u.email")
+})
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
@@ -22,6 +27,11 @@ import java.util.Set;
 @Setter
 @ToString
 public class User extends AbstractBaseEntity {
+
+    public static final String DELETE = "user.delete";
+    public static final String BY_EMAIL = "user.getByEmail";
+    public static final String GET_ALL = "user.getAll";
+
     @Column
     @NotNull
     @Size(min = 2, max = 50)
@@ -46,7 +56,7 @@ public class User extends AbstractBaseEntity {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"))
     @ElementCollection(fetch = FetchType.EAGER)
-    @BatchSize(size = 100)
+    @BatchSize(size = 200)
     private Set<Role> roles;
 
     public User(String name, String email, String password, Set<Project> projects, Role role, Role... roles) {

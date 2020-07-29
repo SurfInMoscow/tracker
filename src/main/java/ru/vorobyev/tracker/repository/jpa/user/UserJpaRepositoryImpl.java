@@ -1,36 +1,63 @@
 package ru.vorobyev.tracker.repository.jpa.user;
 
+import org.springframework.context.annotation.Profile;
+import org.springframework.dao.support.DataAccessUtils;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.repository.UserRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Profile("jpa")
+@Repository
+@Transactional(readOnly = true)
 public class UserJpaRepositoryImpl implements UserRepository {
+
+    @PersistenceContext
+    private EntityManager em;
+
+    @Transactional
     @Override
     public User save(User user) {
-        return null;
+        if (user.isNew()) {
+            em.persist(user);
+            return user;
+        } else {
+            return em.merge(user);
+        }
     }
 
+    @Transactional
     @Override
     public boolean delete(int id) {
-        return false;
+        return em.createNamedQuery(User.DELETE)
+                .setParameter("id", id)
+                .executeUpdate() != 0;
     }
 
     @Override
     public User get(int id) {
-        return null;
+        return em.find(User.class, id);
     }
 
     @Override
     public User getByEmail(String email) {
-        return null;
+        List<User> users = em.createNamedQuery(User.BY_EMAIL, User.class)
+                .setParameter("email", email)
+                .getResultList();
+        return DataAccessUtils.singleResult(users);
     }
 
     @Override
     public List<User> getAll() {
-        return null;
+        return em.createNamedQuery(User.GET_ALL, User.class)
+                .getResultList();
     }
 
-    public void clear() {
+    public void refresh(User user) {
+        em.refresh(user);
     }
 }

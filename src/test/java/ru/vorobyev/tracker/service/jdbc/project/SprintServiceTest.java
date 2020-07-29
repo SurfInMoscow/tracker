@@ -3,11 +3,10 @@ package ru.vorobyev.tracker.service.jdbc.project;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 import ru.vorobyev.tracker.domain.project.Sprint;
 import ru.vorobyev.tracker.repository.jdbc.project.SprintJdbcRepositoryImpl;
 import ru.vorobyev.tracker.service.SprintService;
-import ru.vorobyev.tracker.service.project.SprintServiceImpl;
+import ru.vorobyev.tracker.AbstractJdbcServiceTest;
 
 import java.util.List;
 
@@ -15,10 +14,10 @@ import static org.junit.Assert.*;
 import static ru.vorobyev.tracker.service.jdbc.project.ProjectJdbcTestData.*;
 
 
-public class SprintJdbcServiceTest extends AbstractJdbcServiceTest {
+public class SprintServiceTest extends AbstractJdbcServiceTest {
 
     @Autowired
-    public SprintService sprintService;
+    private SprintService sprintService;
 
     @BeforeClass
     public static void setUp() {

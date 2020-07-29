@@ -1,7 +1,7 @@
 package ru.vorobyev.tracker.web;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import ru.vorobyev.tracker.config.TrackerSpringConfig;
+import ru.vorobyev.tracker.config.TrackerConfig;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.service.UserService;
 
@@ -20,7 +20,7 @@ public class UserRegistrationServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        AnnotationConfigApplicationContext apCtx = new AnnotationConfigApplicationContext(TrackerSpringConfig.class);
+        AnnotationConfigApplicationContext apCtx = new AnnotationConfigApplicationContext(TrackerConfig.class);
         userService = apCtx.getBean(UserService.class);
     }
 

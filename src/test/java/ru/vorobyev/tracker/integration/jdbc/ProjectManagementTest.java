@@ -30,31 +30,31 @@ import static ru.vorobyev.tracker.integration.jdbc.ProjectTestData.*;
 import static ru.vorobyev.tracker.integration.jdbc.UserTestData.*;
 
 
-public class JdbcProjectManagementTest extends AbstractJdbcServiceTest {
+public class ProjectManagementTest extends AbstractJdbcServiceTest {
 
     @Autowired
-    public UserService userService;
+    private UserService userService;
 
     @Autowired
-    public ProjectService projectService;
+    private ProjectService projectService;
 
     @Autowired
-    public BacklogService backlogService;
+    private BacklogService backlogService;
 
     @Autowired
-    public SprintService sprintService;
+    private SprintService sprintService;
 
     @Autowired
-    public IssueService<Bug> bugIssueService;
+    private IssueService<Bug> bugIssueService;
 
     @Autowired
-    public IssueService<Epic> epicIssueService;
+    private IssueService<Epic> epicIssueService;
 
     @Autowired
-    public IssueService<Story> storyIssueService;
+    private IssueService<Story> storyIssueService;
 
     @Autowired
-    public IssueService<Task> taskIssueService;
+    private IssueService<Task> taskIssueService;
 
     @BeforeClass
     public static void setUp() {

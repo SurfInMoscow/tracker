@@ -1,12 +1,24 @@
 package ru.vorobyev.tracker.repository.jpa.project;
 
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.repository.BacklogRepository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Profile("jpa")
+@Repository
+@Transactional(readOnly = true)
 public class BacklogJpaRepositoryImpl implements BacklogRepository {
+
+    @PersistenceContext
+    private EntityManager em;
+
     @Override
     public Backlog save(Backlog backlog) {
         return null;
@@ -51,4 +63,6 @@ public class BacklogJpaRepositoryImpl implements BacklogRepository {
     public Backlog getWithIssuesByReporter(int id, int reporter_id) {
         return null;
     }
+
+    public void refresh() {}
 }
