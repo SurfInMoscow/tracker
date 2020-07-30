@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jpa.issue;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vorobyev.tracker.domain.issue.Bug;
@@ -9,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
+@Profile("jpa")
 @Repository
 @Transactional(readOnly = true)
 public class BugJpaRepositoryImpl implements IssueRepository<Bug> {

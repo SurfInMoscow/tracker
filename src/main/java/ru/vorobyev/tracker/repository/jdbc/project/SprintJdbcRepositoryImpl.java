@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.project;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
@@ -19,6 +20,7 @@ import java.util.Set;
 
 import static ru.vorobyev.tracker.repository.jdbc.project.IssueTypes.*;
 
+@Profile("jdbc")
 @Repository
 public class SprintJdbcRepositoryImpl implements SprintRepository {
 

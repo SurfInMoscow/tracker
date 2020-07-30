@@ -19,7 +19,8 @@ spring:
         default_batch_fetch_size: 20
         enable_lazy_load_no_trans: true
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
-        jdbc.batch_size: 20
+        jdbc:
+          batch_size: 20
         cache:
           use_second_level_cache: true
 
