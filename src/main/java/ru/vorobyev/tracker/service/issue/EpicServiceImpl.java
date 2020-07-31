@@ -1,6 +1,7 @@
 package ru.vorobyev.tracker.service.issue;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.vorobyev.tracker.domain.issue.Epic;
 import ru.vorobyev.tracker.repository.IssueRepository;
@@ -14,7 +15,7 @@ public class EpicServiceImpl implements IssueService<Epic> {
     private IssueRepository<Epic> issueRepository;
 
     @Autowired
-    public EpicServiceImpl(IssueRepository<Epic> issueRepository) {
+    public EpicServiceImpl(@Qualifier("EpicRepository") IssueRepository<Epic> issueRepository) {
         this.issueRepository = issueRepository;
     }
 

@@ -18,6 +18,7 @@ import java.util.Set;
 @NamedQueries({
         @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
         @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.email=:email"),
+        @NamedQuery(name = User.GET, query = "SELECT DISTINCT u FROM User u LEFT JOIN FETCH u.roles WHERE u.id=:id"),
         @NamedQuery(name = User.GET_ALL, query = "SELECT u FROM User u ORDER BY u.name, u.email")
 })
 @Entity
@@ -29,6 +30,7 @@ import java.util.Set;
 public class User extends AbstractBaseEntity {
 
     public static final String DELETE = "user.delete";
+    public static final String GET = "user.get";
     public static final String BY_EMAIL = "user.getByEmail";
     public static final String GET_ALL = "user.getAll";
 

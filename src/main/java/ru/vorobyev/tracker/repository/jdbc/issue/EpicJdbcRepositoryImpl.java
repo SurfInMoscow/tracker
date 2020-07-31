@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.issue;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.issue.*;
@@ -25,6 +26,7 @@ import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getWorkflowStatu
 
 @Profile("jdbc")
 @Repository
+@Qualifier("EpicRepository")
 public class EpicJdbcRepositoryImpl implements IssueRepository<Epic> {
 
     private final ConnectionFactory connectionFactory;

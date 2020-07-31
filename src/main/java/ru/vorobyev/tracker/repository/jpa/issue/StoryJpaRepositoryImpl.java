@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jpa.issue;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Profile("jpa")
 @Repository
+@Qualifier("StoryRepository")
 @Transactional(readOnly = true)
 public class StoryJpaRepositoryImpl implements IssueRepository<Story> {
 

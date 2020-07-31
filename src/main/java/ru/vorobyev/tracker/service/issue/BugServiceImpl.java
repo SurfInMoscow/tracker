@@ -1,6 +1,7 @@
 package ru.vorobyev.tracker.service.issue;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.vorobyev.tracker.domain.issue.Bug;
 import ru.vorobyev.tracker.repository.IssueRepository;
@@ -11,10 +12,10 @@ import java.util.List;
 @Service
 public class BugServiceImpl implements IssueService<Bug> {
 
-    private IssueRepository<Bug> issueRepository;
+    private final IssueRepository<Bug> issueRepository;
 
     @Autowired
-    public BugServiceImpl(IssueRepository<Bug> issueRepository) {
+    public BugServiceImpl(@Qualifier("BugRepository") IssueRepository<Bug> issueRepository) {
         this.issueRepository = issueRepository;
     }
 

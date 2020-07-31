@@ -1,6 +1,8 @@
 package ru.vorobyev.tracker.repository.jpa.issue;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.vorobyev.tracker.domain.issue.Bug;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Profile("jpa")
 @Repository
+@Qualifier("BugRepository")
 @Transactional(readOnly = true)
 public class BugJpaRepositoryImpl implements IssueRepository<Bug> {
 

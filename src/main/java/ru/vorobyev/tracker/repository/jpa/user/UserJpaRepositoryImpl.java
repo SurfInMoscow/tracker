@@ -1,5 +1,7 @@
 package ru.vorobyev.tracker.repository.jpa.user;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.stereotype.Repository;
@@ -41,6 +43,10 @@ public class UserJpaRepositoryImpl implements UserRepository {
     @Override
     public User get(int id) {
         return em.find(User.class, id);
+       /* List<User> users = em.createNamedQuery(User.GET, User.class)
+                .setParameter("id", id)
+                .getResultList();
+        return DataAccessUtils.singleResult(users);*/
     }
 
     @Override

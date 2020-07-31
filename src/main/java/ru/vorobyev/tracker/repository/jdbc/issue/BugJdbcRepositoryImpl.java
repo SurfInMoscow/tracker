@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.repository.jdbc.issue;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 import ru.vorobyev.tracker.domain.issue.*;
@@ -24,6 +25,7 @@ import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getPriority;
 import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getWorkflowStatus;
 
 @Profile("jdbc")
+@Qualifier("BugRepository")
 @Repository
 public class BugJdbcRepositoryImpl implements IssueRepository<Bug> {
 

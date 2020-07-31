@@ -1,6 +1,7 @@
 package ru.vorobyev.tracker.service.issue;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.vorobyev.tracker.domain.issue.Story;
 import ru.vorobyev.tracker.repository.IssueRepository;
@@ -14,7 +15,7 @@ public class StoryServiceImpl implements IssueService<Story> {
     private IssueRepository<Story> issueRepository;
 
     @Autowired
-    public StoryServiceImpl(IssueRepository<Story> issueRepository) {
+    public StoryServiceImpl(@Qualifier("StoryRepository") IssueRepository<Story> issueRepository) {
         this.issueRepository = issueRepository;
     }
 

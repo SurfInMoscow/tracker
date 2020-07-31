@@ -14,6 +14,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import java.util.Properties;
 
@@ -39,6 +40,9 @@ public class TrackerJpaConfig {
 
     @Value("${spring.jpa.properties.hibernate.dialect}")
     private String hibernateDialect;
+
+    @Value("${spring.jpa.properties.hibernate.show_sql}")
+    private String showSql;
 
     @Value("${spring.jpa.properties.hibernate.format_sql}")
     private String formatSql;
@@ -79,9 +83,9 @@ public class TrackerJpaConfig {
     }
 
     @Bean
-    public PlatformTransactionManager transactionManager() {
+    public PlatformTransactionManager transactionManager(EntityManagerFactory factory) {
         JpaTransactionManager transactionManager = new JpaTransactionManager();
-        transactionManager.setEntityManagerFactory(entityManagerFactory().getObject());
+        transactionManager.setEntityManagerFactory(factory);
 
         return transactionManager;
     }
@@ -91,8 +95,9 @@ public class TrackerJpaConfig {
         return new PersistenceExceptionTranslationPostProcessor();
     }
 
-    Properties additionalProperties() {
+    public Properties additionalProperties() {
         Properties properties = new Properties();
+        properties.setProperty("hibernate.show_sql", showSql);
         properties.setProperty("hibernate.dialect", hibernateDialect);
         properties.setProperty("hibernate.format_sql", formatSql);
         properties.setProperty("hibernate.use_sql_comments", useSqlComments);
