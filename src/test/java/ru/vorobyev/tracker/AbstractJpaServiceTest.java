@@ -11,6 +11,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 @RunWith(SpringRunner.class)
 @ActiveProfiles("jpa")
 @ExtendWith(SpringExtension.class)
-@Sql(scripts = "classpath:data.sql", config = @SqlConfig(encoding = "UTF-8"))
+@Sql(scripts = {"classpath:data.sql"}, config = @SqlConfig(encoding = "UTF-8"))
 public abstract class AbstractJpaServiceTest extends AbstractServiceTest {
 }

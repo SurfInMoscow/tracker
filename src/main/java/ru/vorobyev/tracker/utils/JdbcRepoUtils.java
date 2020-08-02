@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.repository.jdbc;
+package ru.vorobyev.tracker.utils;
 
 import ru.vorobyev.tracker.domain.issue.Priority;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;

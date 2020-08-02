@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Import;
 
 @Configuration
 @ComponentScan(basePackages = {"ru.vorobyev.tracker.service"})
-@Import({TrackerJpaConfig.class, TrackerJdbcConfig.class})
+@Import({TrackerJpaConfig.class, TrackerJdbcConfig.class, TrackerWebConfig.class})
 public class TrackerConfig {
 }

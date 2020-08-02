@@ -1,4 +1,4 @@
-package ru.vorobyev.tracker.web;
+package ru.vorobyev.tracker.web.servlets;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import ru.vorobyev.tracker.config.TrackerConfig;

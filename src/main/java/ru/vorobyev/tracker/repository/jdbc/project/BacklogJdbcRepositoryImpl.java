@@ -18,8 +18,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getPriority;
-import static ru.vorobyev.tracker.repository.jdbc.JdbcRepoUtils.getWorkflowStatus;
+import static ru.vorobyev.tracker.utils.JdbcRepoUtils.getPriority;
+import static ru.vorobyev.tracker.utils.JdbcRepoUtils.getWorkflowStatus;
 import static ru.vorobyev.tracker.repository.jdbc.project.IssueTypes.*;
 
 @Profile("jdbc")

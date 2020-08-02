@@ -1,5 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="f" uri="http://pavel.vorobev.com" %>
 <%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,30 +47,12 @@
     .list-group {
         position: absolute;
         width: 200px;
-        top: 300px;
+        top: 370px;
     }
 
 </style>
 <body>
-<nav class="navbar navbar-expand-lg" style="background-color: #f5f5f5">
-    <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <form action="projects" method="get">
-                    <button type="submit" class="btn btn-light">Проекты</button>
-                </form>
-            </li>
-            <li class="nav-item active">
-                <form action="projects" method="get">
-                    <button type="submit" name="action" value="logout" class="btn btn-light">Выход</button>
-                </form>
-            </li>
-        </ul>
-        <span class="navbar-text">Bug Tracker</span>
-    </div>
-</nav>
-
-<br>
+<jsp:include page="fragments/navbar.jsp"/>
 
 <div class="pl-3 projectForm">
     <form action="projects" method="post" name="projectForm">
@@ -114,15 +97,18 @@
     <c:choose>
         <c:when test="${project.administrator eq user.email or project.manager eq user.email}">
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userInviteModal"
-                    style="position: absolute; left: 17px; top: 250px;">Пригласить
+                    style="position: absolute; left: 17px; top: 325px;">Пригласить
             </button>
         </c:when>
         <c:when test="${project.administrator ne user.email and project.manager ne user.email}">
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#userInviteModal"
-                    style="position: absolute; left: 17px; top: 250px;" disabled>Пригласить
+                    style="position: absolute; left: 17px; top: 325px;" disabled>Пригласить
             </button>
         </c:when>
     </c:choose>
+    <a href="issues?action=create&project_id=${project.id}">
+        <button type="submit" class="btn btn-info" style="position: absolute; left: 17px; top: 280px;">Задача</button>
+    </a>
 </div>
 
 <br>
@@ -155,13 +141,16 @@
             <c:forEach var="bugs" items="${bugs}">
                 <jsp:useBean id="bugs" scope="page" type="ru.vorobyev.tracker.domain.issue.Bug"/>
                 <tr>
-                    <td>${bugs.creationDate}</td>
+                    <td>${f:formatLocalDateTime(bugs.creationDate, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${bugs.name}</td>
                     <td>${bugs.priority}</td>
                     <td>${bugs.status}</td>
                     <td>
-                        <a href="issues?action=edit&type=bug&id=${bugs.id}">
+                        <a href="issues?action=edit&project_id=${project.id}&type=Bug&id=${bugs.id}">
                             <button type="submit" class="btn btn-info btn-sm">Детали</button>
+                        </a>
+                        <a href="issues?action=delete&project_id=${project.id}&type=Bug&id=${bugs.id}">
+                            <button type="submit" class="btn btn-warning btn-sm">Удалить</button>
                         </a>
                     </td>
                 </tr>
@@ -185,13 +174,16 @@
             <c:forEach var="epics" items="${epics}">
                 <jsp:useBean id="epics" scope="page" type="ru.vorobyev.tracker.domain.issue.Epic"/>
                 <tr>
-                    <td>${epics.creationDate}</td>
+                    <td>${f:formatLocalDateTime(epics.creationDate, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${epics.name}</td>
                     <td>${epics.priority}</td>
                     <td>${epics.status}</td>
                     <td>
-                        <a href="issues?action=edit&type=epic&id=${epics.id}">
+                        <a href="issues?action=edit&project_id=${project.id}&type=Epic&id=${epics.id}">
                             <button type="submit" class="btn btn-info btn-sm">Детали</button>
+                        </a>
+                        <a href="issues?action=delete&project_id=${project.id}&type=Epic&id=${epics.id}">
+                            <button type="submit" class="btn btn-warning btn-sm">Удалить</button>
                         </a>
                     </td>
                 </tr>
@@ -215,13 +207,16 @@
             <c:forEach var="stories" items="${stories}">
                 <jsp:useBean id="stories" scope="page" type="ru.vorobyev.tracker.domain.issue.Story"/>
                 <tr>
-                    <td>${stories.creationDate}</td>
+                    <td>${f:formatLocalDateTime(stories.creationDate, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${stories.name}</td>
                     <td>${stories.priority}</td>
                     <td>${stories.status}</td>
                     <td>
-                        <a href="issues?action=edit&type=story&id=${stories.id}">
+                        <a href="issues?action=edit&project_id=${project.id}&type=Story&id=${stories.id}">
                             <button type="submit" class="btn btn-info btn-sm">Детали</button>
+                        </a>
+                        <a href="issues?action=delete&project_id=${project.id}&type=Story&id=${stories.id}">
+                            <button type="submit" class="btn btn-warning btn-sm">Удалить</button>
                         </a>
                     </td>
                 </tr>
@@ -245,13 +240,16 @@
             <c:forEach var="tasks" items="${tasks}">
                 <jsp:useBean id="tasks" scope="page" type="ru.vorobyev.tracker.domain.issue.Task"/>
                 <tr>
-                    <td>${tasks.creationDate}</td>
+                    <td>${f:formatLocalDateTime(tasks.creationDate, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${tasks.name}</td>
                     <td>${tasks.priority}</td>
                     <td>${tasks.status}</td>
                     <td>
-                        <a href="issues?action=edit&type=task&id=${tasks.id}">
+                        <a href="issues?action=edit&project_id=${project.id}&type=Task&id=${tasks.id}">
                             <button type="submit" class="btn btn-info btn-sm">Детали</button>
+                        </a>
+                        <a href="issues?action=delete&project_id=${project.id}&type=Task&id=${tasks.id}">
+                            <button type="submit" class="btn btn-warning btn-sm">Удалить</button>
                         </a>
                     </td>
                 </tr>
@@ -275,13 +273,16 @@
             <c:forEach var="sprints" items="${sprints}">
                 <jsp:useBean id="sprints" scope="page" type="ru.vorobyev.tracker.domain.issue.AbstractIssue"/>
                 <tr>
-                    <td>${sprints.creationDate}</td>
+                    <td>${f:formatLocalDateTime(sprints.creationDate, "yyyy-MM-dd HH:mm:ss")}</td>
                     <td>${sprints.name}</td>
                     <td>${sprints.priority}</td>
                     <td>${sprints.status}</td>
                     <td>
-                        <a href="issues?action=edit&type=abstract&id=${sprints.id}">
+                        <a href="issues?action=edit&project_id=${project.id}&type=Abstract&id=${sprints.id}">
                             <button type="submit" class="btn btn-info btn-sm">Детали</button>
+                        </a>
+                        <a href="issues?action=delete&project_id=${project.id}&type=Abstract&id=${sprints.id}">
+                            <button type="submit" class="btn btn-warning btn-sm">Удалить</button>
                         </a>
                     </td>
                 </tr>
@@ -348,7 +349,7 @@
 </div>
 
 <div class="modal" id="userInviteModal">
-    <div class="modal-dialog modal-sm" style="position: absolute; top: 220px; left: 140px">
+    <div class="modal-dialog modal-sm" style="position: absolute; top: 300px; left: 140px">
         <div class="modal-content">
                 <!-- Modal Header -->
                 <div class="modal-header">

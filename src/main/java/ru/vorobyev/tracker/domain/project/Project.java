@@ -40,12 +40,12 @@ public class Project extends AbstractBaseEntity {
     @NotNull
     private String administrator;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "backlog_id")
     @ToString.Exclude
     private Backlog backlog;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
     @JoinColumn(name = "sprint_id")
     @ToString.Exclude
     private Sprint sprint;
