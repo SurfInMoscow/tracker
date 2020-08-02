@@ -5,10 +5,15 @@ DELETE FROM users;
 
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
+/*
+ user - password
+ tester - testpass
+ worker - workerpass
+  */
 INSERT INTO users(email, name, password) VALUES
-('user@ya.ru', 'user', 'password'),
-('test@inbox.ru', 'tester', 'testpass'),
-('hello@gmail.ru', 'worker', 'workerpass');
+('user@ya.ru', 'user', '{tracker}$2a$10$rbIG.Yd0xNbO7/2R85YdI.dngz6L4uxwv3Hfv9aAZDarrS3raLpRO'),
+('test@inbox.ru', 'tester', '{tracker}$2a$10$gXpVDAGU./O86fFcmIOJI.97MLTF8Hqf7qDC9QXzfBg0HOgM4rOMS'),
+('hello@gmail.ru', 'worker', '{tracker}$2a$10$LnV17obOMWVPCkUIaXSsH.bF2Nn2DbSzhArqKe09p8aNiY/yQpDIa');
 
 INSERT INTO user_roles(user_id, roles) VALUES
 (100000, 'ROLE_USER'),

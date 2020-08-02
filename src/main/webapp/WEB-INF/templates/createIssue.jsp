@@ -84,6 +84,7 @@
             <br>
             <button type="button" onclick="window.history.back()" class="btn btn-secondary">Отмена</button>
             <button type="submit" class="btn btn-success" name="old_type" value="mock">Сохранить</button>
+            <input type="hidden" name="_csrf" value="${{_csrf.token}}"/>
         </form>
     </div>
 </div>

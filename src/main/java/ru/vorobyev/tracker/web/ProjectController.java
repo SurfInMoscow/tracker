@@ -43,7 +43,7 @@ public class ProjectController {
     @GetMapping
     protected String getProjects(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        int usr_id = extractCookieID(req);
+        int usr_id = (int) req.getAttribute("usr_id");
         String id = req.getParameter("id");
         String action = req.getParameter("action");
         String userEmail = req.getParameter("user_email");
@@ -80,7 +80,7 @@ public class ProjectController {
     @PostMapping
     protected String postProjects(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int usr_id = extractCookieID(req);
+        int usr_id = (int) req.getAttribute("usr_id");
         String id = req.getParameter("id");
         String name = req.getParameter("name");
         String description = req.getParameter("description");
@@ -94,7 +94,7 @@ public class ProjectController {
             if (checkEmail(manager_email, req, resp) && checkEmail(admin_email, req, resp)) {
                 saveProject(name, description, department, manager_email, admin_email, user);
 
-                return "redirect:/tracker";
+                return "redirect:/projects";
             }
         } else if (user_email != null) {
             return addParticipantToProject(req, resp, id, user_email);
@@ -103,10 +103,6 @@ public class ProjectController {
         }
 
         return null;
-    }
-
-    private int extractCookieID(HttpServletRequest req) {
-        return Integer.parseInt(Arrays.stream(req.getCookies()).filter(cookie -> cookie.getName().equals("usr_id")).findFirst().get().getValue());
     }
 
     private String updateProject(HttpServletRequest req, HttpServletResponse resp, String id, String name, String description, String department, String manager_email, String admin_email, User user) throws ServletException, IOException {

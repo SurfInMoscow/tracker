@@ -54,7 +54,7 @@ public class IssuesController {
     @GetMapping
     protected String getIssues(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         req.setCharacterEncoding("UTF-8");
-        int usr_id = extractCookieID(req);
+        int usr_id = (int) req.getAttribute("usr_id");
         String action = req.getParameter("action");
         String projectId = req.getParameter("project_id");
 
@@ -91,7 +91,7 @@ public class IssuesController {
     @PostMapping
     protected String postIssues(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        int usr_id = extractCookieID(req);
+        int usr_id = (int) req.getAttribute("usr_id");
         String id = req.getParameter("id");
 
         User user = userService.get(usr_id);
@@ -101,10 +101,6 @@ public class IssuesController {
         } else {
             return issueFromReq(req, resp, user, false);
         }
-    }
-
-    private int extractCookieID(HttpServletRequest req) {
-        return Integer.parseInt(Arrays.stream(req.getCookies()).filter(cookie -> cookie.getName().equals("usr_id")).findFirst().get().getValue());
     }
 
     private String createIssue(HttpServletRequest req, User user, Project project) {

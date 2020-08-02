@@ -23,6 +23,7 @@
             <li class="nav-item active">
                 <form action="projects" method="get">
                     <button type="submit" name="action" value="logout" class="btn btn-light">Выход</button>
+                    <input type="hidden" name="_csrf" value="${{_csrf.token}}"/>
                 </form>
             </li>
         </ul>
@@ -111,6 +112,7 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Сохранить</button>
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Отмена</button>
+                    <input type="hidden" name="_csrf" value="${{_csrf.token}}"/>
                 </form>
             </div>
         </div>

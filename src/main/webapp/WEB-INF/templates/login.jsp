@@ -25,7 +25,7 @@
 <form method="post" action="tracker">
     <div class="form-group">
         <label for="exampleInputEmail1">Email</label>
-        <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+        <input type="email" name="username" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                size="15">
     </div>
     <div class="form-group mx-auto">
@@ -33,6 +33,7 @@
         <input type="password" name="password" class="form-control" id="exampleInputPassword1" size="15">
     </div>
     <button type="submit" class="btn btn-primary">Вход</button>
+    <%--<input type="hidden" name="_csrf" value="${{_csrf.token}}"/>--%>
 </form>
 </body>
 </html>
