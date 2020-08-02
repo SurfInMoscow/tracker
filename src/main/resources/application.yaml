@@ -1,3 +1,37 @@
+spring:
+  banner:
+    location: META-INF/banner.txt
+  datasource:
+    url: jdbc:postgresql://localhost:5432/tracker
+    username: user
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+---
+
+server:
+  port: 8080
+spring:
+  profiles: dev
+  datasource:
+    initialization-mode: always
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true
+        format_sql: true
+        use_sql_comments: true
+        default_batch_fetch_size: 20
+        enable_lazy_load_no_trans: true
+        # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
+        jdbc:
+          batch_size: 20
+
+---
+
 server:
   port: 8443
   ssl:
@@ -8,21 +42,18 @@ server:
     key-alias: BugTracker
     key-store-provider: SUN
 spring:
+  profiles: prod
   datasource:
-    url: jdbc:postgresql://localhost:5432/tracker
-    username: user
-    password: password
-    driver-class-name: org.postgresql.Driver
-    initialization-mode: always
+    initialization-mode: never
   jpa:
     hibernate:
         ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
+        show_sql: false
+        format_sql: false
+        use_sql_comments: false
         default_batch_fetch_size: 20
         enable_lazy_load_no_trans: true
         # https://stackoverflow.com/questions/21257819/what-is-the-difference-between-hibernate-jdbc-fetch-size-and-hibernate-jdbc-batc
