@@ -9,7 +9,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
-@ActiveProfiles("jpa")
+@ActiveProfiles({"jpa", "dev", "prod"})
 @ExtendWith(SpringExtension.class)
 @Sql(scripts = {"classpath:data.sql"}, config = @SqlConfig(encoding = "UTF-8"))
 public abstract class AbstractJpaServiceTest extends AbstractServiceTest {
