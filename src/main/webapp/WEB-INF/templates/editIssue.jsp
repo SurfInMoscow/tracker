@@ -103,7 +103,6 @@
             <button type="button" onclick="window.history.back()" class="btn btn-secondary">Отмена</button>
             <button type="submit" class="btn btn-success">Сохранить</button>
             <button type="submit" class="btn btn-info" name="toSprint" value="true">В спринт</button>
-            <input type="hidden" name="_csrf" value="${{_csrf.token}}"/>
         </form>
     </div>
 </div>

@@ -87,7 +87,7 @@
         <c:if test="${project.administrator eq user.email or project.manager eq user.email}">
             <button type="submit" class="btn btn-success">Сохранить</button>
         </c:if>
-        <input type="hidden" name="_csrf" value="${{_csrf.token}}"/>
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
     </form>
 
 </div>

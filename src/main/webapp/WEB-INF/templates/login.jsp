@@ -33,7 +33,6 @@
         <input type="password" name="password" class="form-control" id="exampleInputPassword1" size="15">
     </div>
     <button type="submit" class="btn btn-primary">Вход</button>
-    <%--<input type="hidden" name="_csrf" value="${{_csrf.token}}"/>--%>
 </form>
 </body>
 </html>
