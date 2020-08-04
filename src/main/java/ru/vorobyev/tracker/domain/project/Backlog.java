@@ -28,7 +28,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
     @OneToMany(
             mappedBy = "backlog",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Bug> bugs;
@@ -36,7 +36,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
     @OneToMany(
             mappedBy = "backlog",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Epic> epics;
@@ -44,7 +44,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
     @OneToMany(
             mappedBy = "backlog",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Story> stories;
@@ -52,7 +52,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
     @OneToMany(
             mappedBy = "backlog",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Task> tasks;

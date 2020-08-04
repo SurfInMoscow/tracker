@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.repository.UserRepository;
-import ru.vorobyev.tracker.config.UserWithDetails;
+import ru.vorobyev.tracker.domain.user.UserWithDetails;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

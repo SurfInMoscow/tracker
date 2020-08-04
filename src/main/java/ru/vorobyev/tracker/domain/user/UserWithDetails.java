@@ -1,14 +1,13 @@
-package ru.vorobyev.tracker.config;
+package ru.vorobyev.tracker.domain.user;
 
 import lombok.Getter;
-import ru.vorobyev.tracker.domain.user.User;
 
 @Getter
 public class UserWithDetails extends org.springframework.security.core.userdetails.User {
 
     private static final long serialVersionUID = 1L;
 
-    private User user;
+    private final User user;
 
     public UserWithDetails(User user) {
         super(user.getEmail(), user.getPassword(), true, true, true, true, user.getRoles());

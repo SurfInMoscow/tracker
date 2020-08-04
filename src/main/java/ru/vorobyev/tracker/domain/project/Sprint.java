@@ -8,22 +8,26 @@ import ru.vorobyev.tracker.domain.issue.Epic;
 import ru.vorobyev.tracker.domain.issue.Story;
 import ru.vorobyev.tracker.domain.issue.Task;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(name = Sprint.DELETE, query = "DELETE FROM Sprint s WHERE s.id=:id"),
+        @NamedQuery(name = Sprint.GET_ALL, query = "SELECT s FROM Sprint s")
+})
 @Entity
 @Getter
 @Setter
 public class Sprint extends AbstractBaseEntity implements ProjectIssues {
 
+    public static final String DELETE = "sprint.delete";
+    public static final String GET_ALL = "sprint.getAll";
+
     @OneToMany(
             mappedBy = "sprint",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Bug> bugs;
@@ -31,7 +35,7 @@ public class Sprint extends AbstractBaseEntity implements ProjectIssues {
     @OneToMany(
             mappedBy = "sprint",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Epic> epics;
@@ -39,7 +43,7 @@ public class Sprint extends AbstractBaseEntity implements ProjectIssues {
     @OneToMany(
             mappedBy = "sprint",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Story> stories;
@@ -47,7 +51,7 @@ public class Sprint extends AbstractBaseEntity implements ProjectIssues {
     @OneToMany(
             mappedBy = "sprint",
             fetch = FetchType.LAZY,
-            cascade = CascadeType.PERSIST,
+            cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
     private Set<Task> tasks;

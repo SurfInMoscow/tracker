@@ -21,9 +21,9 @@ import java.time.LocalDateTime;
 public abstract class AbstractIssue extends AbstractBaseEntity implements Issue {
     @Column(name = "priority")
     @NotNull
+    @Enumerated(EnumType.STRING)
     private Priority priority;
 
-    //@Convert(converter = LocalDateTimeConverter.class)
     @Column(name = "creation_date")
     @NotNull
     private LocalDateTime creationDate;

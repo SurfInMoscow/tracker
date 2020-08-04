@@ -12,6 +12,11 @@ import ru.vorobyev.tracker.domain.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedQueries({
+        @NamedQuery(name = Bug.DELETE, query = "DELETE FROM Bug b WHERE b.id=:id"),
+        @NamedQuery(name = Bug.GET_BY_NAME, query = "SELECT b FROM Bug b WHERE b.name=:name"),
+        @NamedQuery(name = Bug.GET_ALL, query = "SELECT b FROM Bug b")
+})
 @Entity
 @Table(name = "bugs")
 @NoArgsConstructor
@@ -19,7 +24,11 @@ import java.time.LocalDateTime;
 @Setter
 public class Bug extends AbstractIssue {
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    public static final String DELETE = "bug.delete";
+    public static final String GET_BY_NAME = "bug.getByName";
+    public static final String GET_ALL = "bug.getAll";
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_epic_id")
     private Epic rootEpic;
 

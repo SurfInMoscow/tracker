@@ -23,4 +23,6 @@ public interface BacklogService {
     Backlog getWithIssuesByExecutor(int id, int executor_id);
 
     Backlog getWithIssuesByReporter(int id, int reporter_id);
+
+    default void refresh(Backlog backlog) {}
 }

@@ -18,25 +18,37 @@ public class SprintJpaRepositoryImpl implements SprintRepository {
     @PersistenceContext
     private EntityManager em;
 
+    @Transactional
     @Override
     public Sprint save(Sprint sprint) {
-        return null;
+        if (sprint.isNew()) {
+            em.persist(sprint);
+            return sprint;
+        } else {
+            return em.merge(sprint);
+        }
     }
 
+    @Transactional
     @Override
     public boolean delete(int id) {
-        return false;
+        return em.createNamedQuery(Sprint.DELETE)
+                .setParameter("id", id)
+                .executeUpdate() != 0;
     }
 
     @Override
     public Sprint get(int id) {
-        return null;
+        return em.find(Sprint.class, id);
     }
 
     @Override
     public List<Sprint> getAll() {
-        return null;
+        return em.createNamedQuery(Sprint.GET_ALL, Sprint.class)
+                .getResultList();
     }
 
-    public void refresh() {}
+    public void refresh(Sprint sprint) {
+        em.refresh(sprint);
+    }
 }

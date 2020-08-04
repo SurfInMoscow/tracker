@@ -12,4 +12,6 @@ public interface IssueService<T> {
     T getByName(String name);
 
     List<T> getAll();
+
+    default void refresh(T issue) {}
 }
