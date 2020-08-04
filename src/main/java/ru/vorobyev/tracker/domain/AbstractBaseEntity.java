@@ -1,6 +1,7 @@
 package ru.vorobyev.tracker.domain;
 
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 
@@ -22,15 +23,15 @@ public class AbstractBaseEntity {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) return false;
 
         AbstractBaseEntity that = (AbstractBaseEntity) o;
 
-        return id.equals(that.id);
+        return id != null && id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return id.hashCode();
+        return id == null ? 0 : id;
     }
 }

@@ -23,6 +23,7 @@ public abstract class AbstractIssue extends AbstractBaseEntity implements Issue 
     @NotNull
     private Priority priority;
 
+    //@Convert(converter = LocalDateTimeConverter.class)
     @Column(name = "creation_date")
     @NotNull
     private LocalDateTime creationDate;

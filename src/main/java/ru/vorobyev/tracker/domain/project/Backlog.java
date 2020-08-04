@@ -8,17 +8,22 @@ import ru.vorobyev.tracker.domain.issue.Epic;
 import ru.vorobyev.tracker.domain.issue.Story;
 import ru.vorobyev.tracker.domain.issue.Task;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(name = Backlog.DELETE, query = "DELETE FROM Backlog b WHERE b.id=:id"),
+        @NamedQuery(name = Backlog.GET_ALL, query = "SELECT b FROM Backlog b"),
+})
 @Entity
 @Getter
 @Setter
 public class Backlog extends AbstractBaseEntity implements ProjectIssues {
+
+    public static final String DELETE = "backlog.delete";
+    public static final String GET_ALL = "backlog.getAll";
+    public static final String GET_BY_PRIORITY = "backlog.getByPriority";
 
     @OneToMany(
             mappedBy = "backlog",

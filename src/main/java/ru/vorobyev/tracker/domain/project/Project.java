@@ -10,12 +10,21 @@ import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
+@NamedQueries({
+        @NamedQuery(name = Project.DELETE, query = "DELETE FROM Project p WHERE p.id=:id"),
+        @NamedQuery(name = Project.GET_BY_NAME, query = "SELECT p FROM Project p WHERE p.name=:name"),
+        @NamedQuery(name = Project.GET_ALL, query = "SELECT p FROM Project p ORDER BY p.name")
+})
 @Entity
 @Table(name = "projects")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Project extends AbstractBaseEntity {
+
+    public static final String DELETE = "project.remove";
+    public static final String GET_BY_NAME = "project.getByName";
+    public static final String GET_ALL = "project.getAll";
 
     @Column(name = "name")
     @NotNull
@@ -40,12 +49,12 @@ public class Project extends AbstractBaseEntity {
     @NotNull
     private String administrator;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "backlog_id")
     @ToString.Exclude
     private Backlog backlog;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST})
+    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinColumn(name = "sprint_id")
     @ToString.Exclude
     private Sprint sprint;
