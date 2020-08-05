@@ -12,12 +12,21 @@ import ru.vorobyev.tracker.domain.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedQueries({
+        @NamedQuery(name = Task.DELETE, query = "DELETE FROM Task t WHERE t.id=:id"),
+        @NamedQuery(name = Task.GET_BY_NAME, query = "SELECT t FROM Task t WHERE t.name=:name"),
+        @NamedQuery(name = Task.GET_ALL, query = "SELECT t FROM Task t ORDER BY t.creationDate")
+})
 @Entity
 @Table(name = "tasks")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Task extends AbstractIssue {
+
+    public static final String DELETE = "task.delete";
+    public static final String GET_BY_NAME = "task.getByName";
+    public static final String GET_ALL = "task.getAll";
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_bug_id")

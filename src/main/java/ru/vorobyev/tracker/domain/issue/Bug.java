@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @NamedQueries({
         @NamedQuery(name = Bug.DELETE, query = "DELETE FROM Bug b WHERE b.id=:id"),
         @NamedQuery(name = Bug.GET_BY_NAME, query = "SELECT b FROM Bug b WHERE b.name=:name"),
-        @NamedQuery(name = Bug.GET_ALL, query = "SELECT b FROM Bug b")
+        @NamedQuery(name = Bug.GET_ALL, query = "SELECT b FROM Bug b ORDER BY b.creationDate")
 })
 @Entity
 @Table(name = "bugs")

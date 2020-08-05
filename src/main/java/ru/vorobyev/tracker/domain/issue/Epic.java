@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.BatchSize;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.domain.project.Sprint;
@@ -12,12 +13,21 @@ import ru.vorobyev.tracker.domain.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedQueries({
+        @NamedQuery(name = Epic.DELETE, query = "DELETE FROM Epic e WHERE e.id=:id"),
+        @NamedQuery(name = Epic.GET_BY_NAME, query = "SELECT e FROM Epic e WHERE e.name=:name"),
+        @NamedQuery(name = Epic.GET_ALL, query = "SELECT e FROM Epic e ORDER BY e.creationDate")
+})
 @Entity
 @Table(name = "epics")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Epic extends AbstractIssue {
+
+    public static final String DELETE = "epic.delete";
+    public static final String GET_BY_NAME = "epic.getByName";
+    public static final String GET_ALL = "epic.getAll";
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_bug_id")

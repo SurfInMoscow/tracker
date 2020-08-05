@@ -12,12 +12,21 @@ import ru.vorobyev.tracker.domain.user.User;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@NamedQueries({
+        @NamedQuery(name = Story.DELETE,query = "DELETE FROM Story s WHERE s.id=:id"),
+        @NamedQuery(name = Story.GET_BY_NAME, query = "SELECT s FROM Story s WHERE s.name=:name"),
+        @NamedQuery(name = Story.GET_ALL, query = "SELECT s FROM Story s ORDER BY s.creationDate")
+})
 @Entity
 @Table(name = "stories")
 @NoArgsConstructor
 @Getter
 @Setter
 public class Story extends AbstractIssue {
+
+    public static final String DELETE = "story.delete";
+    public static final String GET_BY_NAME = "story.getByName";
+    public static final String GET_ALL = "story.getAll";
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_bug_id")
