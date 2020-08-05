@@ -1,6 +1,9 @@
 package ru.vorobyev.tracker.domain.project;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import ru.vorobyev.tracker.domain.AbstractBaseEntity;
 import ru.vorobyev.tracker.domain.user.User;
 
@@ -59,7 +62,7 @@ public class Project extends AbstractBaseEntity {
     @ToString.Exclude
     private Sprint sprint;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinTable(
             name = "project_users",
             joinColumns = @JoinColumn(name = "project_id"),

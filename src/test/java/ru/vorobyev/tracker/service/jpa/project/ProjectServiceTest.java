@@ -31,7 +31,7 @@ public class ProjectServiceTest extends AbstractJpaServiceTest {
 
     }
 
-    //Backlog и Sprint из проета нужн оудалять отдельно, т.к. между сущностями нет двусторонней связи.
+    //Backlog и Sprint из проекта нужно оудалять отдельно, т.к. между сущностями нет двусторонней связи.
     @Test
     public void delete() {
         Project project = projectService.save(PROJECT2);

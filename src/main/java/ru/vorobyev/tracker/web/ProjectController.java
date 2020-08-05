@@ -1,6 +1,7 @@
 package ru.vorobyev.tracker.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,13 +32,15 @@ public class ProjectController {
     private final UserService userService;
     private final BacklogService backlogService;
     private final SprintService sprintService;
+    private final Environment env;
 
     @Autowired
-    public ProjectController(ProjectService projectService, UserService userService, BacklogService backlogService, SprintService sprintService) {
+    public ProjectController(ProjectService projectService, UserService userService, BacklogService backlogService, SprintService sprintService, Environment env) {
         this.projectService = projectService;
         this.userService = userService;
         this.backlogService = backlogService;
         this.sprintService = sprintService;
+        this.env = env;
     }
 
     @GetMapping
@@ -143,6 +146,11 @@ public class ProjectController {
         Project project = projectService.get(Integer.parseInt(id));
         projectService.delete(project.getId());
 
+        if (Arrays.asList(env.getActiveProfiles()).contains("jpa")) {
+            backlogService.delete(project.getBacklog().getId());
+            sprintService.delete(project.getSprint().getId());
+        }
+
         return "redirect:/projects";
     }
 
@@ -189,14 +197,12 @@ public class ProjectController {
         project.setBacklog(backlog);
         project.setSprint(sprint);
         project = projectService.save(project);
-        user.getProjects().add(project);
-        user = userService.save(user);
         User manager = userService.getByEmail(manager_email);
-        manager.getProjects().add(project);
         User admin = userService.getByEmail(admin_email);
-        admin.getProjects().add(project);
-        userService.save(manager);
-        userService.save(admin);
+        project.getParticipants().add(user);
+        project.getParticipants().add(admin);
+        project.getParticipants().add(manager);
+        projectService.save(project);
     }
 
     private boolean securityCheck(User user, Project project) {

@@ -13,7 +13,8 @@ import javax.persistence.*;
 @ToString
 public class AbstractBaseEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "global_seq")
     protected Integer id;
 
     public boolean isNew() {
