@@ -38,7 +38,7 @@ public class TrackerSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/resources/**", "/webjars/**", "/tracker/**", "/").permitAll()
+                .antMatchers("/resources/**", "/webjars/**", "/tracker/**", "/", "/api/**").permitAll()
                 .antMatchers("/projects/**", "/issues/**").hasAnyRole("USER", "ADMIN")
                 .anyRequest()
                 .authenticated()

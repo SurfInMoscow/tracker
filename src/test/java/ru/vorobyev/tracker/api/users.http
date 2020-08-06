@@ -1,0 +1,48 @@
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+  "name": "new user",
+  "email": "new@ya.ru",
+  "password": "{tracker}$2a$10$rbIG.Yd0xNbO7/2R85YdI.dngz6L4uxwv3Hfv9aAZDarrS3raLpRO",
+  "roles": [
+    "ROLE_USER",
+    "ROLE_ADMIN"
+  ]
+}
+
+###
+
+DELETE http://localhost:8080/api/users/100017
+Accept: application/json
+
+###
+
+PUT http://localhost:8080/api/users/100000
+Content-Type: application/json
+
+{
+  "id": 100000,
+  "name": "updated user",
+  "email": "user@ya.ru",
+  "password": "{tracker}$2a$10$rbIG.Yd0xNbO7/2R85YdI.dngz6L4uxwv3Hfv9aAZDarrS3raLpRO",
+  "roles": [
+    "ROLE_USER",
+    "ROLE_ADMIN"
+  ]
+}
+
+###
+GET http://localhost:8080/api/users/email/user@yea.ru
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/users/100000
+Accept: application/json
+
+###
+
+
+
+

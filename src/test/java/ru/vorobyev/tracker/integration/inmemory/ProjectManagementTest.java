@@ -2,6 +2,7 @@ package ru.vorobyev.tracker.integration.inmemory;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.vorobyev.tracker.domain.issue.Bug;
 import ru.vorobyev.tracker.domain.issue.Epic;
 import ru.vorobyev.tracker.domain.issue.Story;
@@ -55,7 +56,7 @@ public class ProjectManagementTest {
 
     @BeforeClass
     public static void setUp() {
-        userService = new UserServiceImpl(new UserRepositoryImpl());
+        userService = new UserServiceImpl(new UserRepositoryImpl(), new BCryptPasswordEncoder());
         projectService = new ProjectServiceImpl(new ProjectRepositoryImpl());
         backlogService = new BacklogServiceImpl(new BacklogRepositoryImpl());
         sprintService = new SprintServiceImpl(new SprintRepositoryImpl());

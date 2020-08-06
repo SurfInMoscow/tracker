@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.domain.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -50,6 +51,7 @@ public class User extends AbstractBaseEntity {
     @ToString.Exclude
     private String password;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<Project> projects;

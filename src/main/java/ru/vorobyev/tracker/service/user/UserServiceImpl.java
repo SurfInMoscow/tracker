@@ -2,6 +2,7 @@ package ru.vorobyev.tracker.service.user;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.vorobyev.tracker.domain.user.User;
 import ru.vorobyev.tracker.repository.UserRepository;
@@ -15,15 +16,18 @@ public class UserServiceImpl implements UserService {
 
     private UserRepository userRepository;
 
+    private PasswordEncoder passwordEncoder;
+
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public User save(User user) {
         log.info(user.toString() + " saved.");
-        return userRepository.save(user);
+        return userRepository.save(prepareAndSave(user));
     }
 
     @Override
@@ -48,5 +52,13 @@ public class UserServiceImpl implements UserService {
     public List<User> getAll() {
         log.info("Get all users action.");
         return userRepository.getAll();
+    }
+
+    private User prepareAndSave(User user) {
+       String password = user.getPassword();
+       user.setPassword(passwordEncoder.encode(password));
+       user.setEmail(user.getEmail().toLowerCase());
+
+       return user;
     }
 }

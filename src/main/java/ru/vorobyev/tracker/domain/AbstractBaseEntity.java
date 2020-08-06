@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -17,6 +18,7 @@ public class AbstractBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "global_seq")
     protected Integer id;
 
+    @JsonIgnore
     public boolean isNew() {
         return this.id == null;
     }

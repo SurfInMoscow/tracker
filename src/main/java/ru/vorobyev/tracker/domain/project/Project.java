@@ -62,7 +62,7 @@ public class Project extends AbstractBaseEntity {
     @ToString.Exclude
     private Sprint sprint;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(
             name = "project_users",
             joinColumns = @JoinColumn(name = "project_id"),
