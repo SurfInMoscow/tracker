@@ -47,6 +47,7 @@ public class User extends AbstractBaseEntity {
     @Column(name = "password")
     @NotNull
     @Size(min = 5, max = 100)
+    @ToString.Exclude
     private String password;
 
     @ManyToMany(mappedBy = "participants", fetch = FetchType.LAZY)

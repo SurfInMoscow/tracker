@@ -43,12 +43,10 @@ public class Epic extends AbstractIssue {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "backlog_id")
-    @ToString.Exclude
     private Backlog backlog;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sprint_id")
-    @ToString.Exclude
     private Sprint sprint;
 
     public Epic(Issue issue) {

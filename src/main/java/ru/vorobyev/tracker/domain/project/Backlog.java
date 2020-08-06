@@ -2,6 +2,7 @@ package ru.vorobyev.tracker.domain.project;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import ru.vorobyev.tracker.domain.AbstractBaseEntity;
 import ru.vorobyev.tracker.domain.issue.Bug;
 import ru.vorobyev.tracker.domain.issue.Epic;
@@ -31,6 +32,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
             cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
+    @ToString.Exclude
     private Set<Bug> bugs;
 
     @OneToMany(
@@ -39,6 +41,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
             cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
+    @ToString.Exclude
     private Set<Epic> epics;
 
     @OneToMany(
@@ -47,6 +50,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
             cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
+    @ToString.Exclude
     private Set<Story> stories;
 
     @OneToMany(
@@ -55,6 +59,7 @@ public class Backlog extends AbstractBaseEntity implements ProjectIssues {
             cascade = CascadeType.MERGE,
             orphanRemoval = true
     )
+    @ToString.Exclude
     private Set<Task> tasks;
 
     public Backlog() {
