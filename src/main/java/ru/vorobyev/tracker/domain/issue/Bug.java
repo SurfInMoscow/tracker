@@ -1,9 +1,9 @@
 package ru.vorobyev.tracker.domain.issue;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
 import ru.vorobyev.tracker.domain.project.Backlog;
 import ru.vorobyev.tracker.domain.project.Sprint;
@@ -28,22 +28,27 @@ public class Bug extends AbstractIssue {
     public static final String GET_BY_NAME = "bug.getByName";
     public static final String GET_ALL = "bug.getAll";
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_epic_id")
     private Epic rootEpic;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_story_id")
     private Story rootStory;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_task_id")
     private Task rootTask;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "backlog_id")
     private Backlog backlog;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;

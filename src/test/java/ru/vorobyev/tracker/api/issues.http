@@ -1,0 +1,9 @@
+GET http://localhost:8080/api/issues/bug&id=100009
+Accept: application/json
+
+###
+
+GET http://localhost:8080/api/issues/epic&id=100015
+Accept: application/json
+
+###

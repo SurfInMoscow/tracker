@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.domain.issue;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -29,22 +30,27 @@ public class Epic extends AbstractIssue {
     public static final String GET_BY_NAME = "epic.getByName";
     public static final String GET_ALL = "epic.getAll";
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_bug_id")
     private Bug rootBug;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_story_id")
     private Story rootStory;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "root_task_id")
     private Task rootTask;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "backlog_id")
     private Backlog backlog;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sprint_id")
     private Sprint sprint;

@@ -1,5 +1,6 @@
 package ru.vorobyev.tracker.domain.issue;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,11 +34,13 @@ public abstract class AbstractIssue extends AbstractBaseEntity implements Issue 
     @Size(min = 2, max = 100)
     private String name;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "executor_id")
     @ToString.Exclude
     private User executor;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "reporter_id")
     @ToString.Exclude
