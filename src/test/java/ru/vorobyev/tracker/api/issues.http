@@ -1,5 +1,62 @@
+POST http://localhost:8080/api/issues/task
+Content-Type: application/json
+
+{
+  "priority": "MEDIUM",
+  "creationDate": "2020-08-08T01:00:00",
+  "name": "new task",
+  "status": "OPEN_ISSUE",
+  "executor_id": 100002,
+  "reporter_id": 100001,
+  "backlog_id": 100003,
+  "sprint_id": null
+}
+
+###
+
+DELETE http://localhost:8080/api/issues/epic&id=100015
+Accept: application/json
+
+###
+
 GET http://localhost:8080/api/issues/bug&id=100009
 Accept: application/json
+
+###
+
+PUT http://localhost:8080/api/issues/bug&id=100009
+Content-Type: application/json
+
+{
+  "id": 100009,
+  "priority": "LOW",
+  "creationDate": "2020-05-20T10:00:00",
+  "name": "updated",
+  "executor": {
+    "id": 100001,
+    "name": "tester",
+    "email": "test@inbox.ru",
+    "password": "{tracker}$2a$10$gXpVDAGU./O86fFcmIOJI.97MLTF8Hqf7qDC9QXzfBg0HOgM4rOMS",
+    "roles": [
+      "ROLE_USER"
+    ]
+  },
+  "reporter": {
+    "id": 100000,
+    "name": "user",
+    "email": "user@ya.ru",
+    "password": "{tracker}$2a$10$rbIG.Yd0xNbO7/2R85YdI.dngz6L4uxwv3Hfv9aAZDarrS3raLpRO",
+    "roles": [
+      "ROLE_USER"
+    ]
+  },
+  "status": "RESOLVED_ISSUE",
+  "rootEpic": null,
+  "rootStory": null,
+  "rootTask": null,
+  "backlog_id": null,
+  "sprint_id": 100005
+}
 
 ###
 
@@ -7,3 +64,37 @@ GET http://localhost:8080/api/issues/epic&id=100015
 Accept: application/json
 
 ###
+
+PUT http://localhost:8080/api/issues/epic&id=100015
+Content-Type: application/json
+
+{
+  "id": 100015,
+  "priority": "LOW",
+  "creationDate": "2020-01-23T15:00:00",
+  "name": "epicSprint",
+  "executor": {
+    "id": 100000,
+    "name": "user",
+    "email": "user@ya.ru",
+    "password": "{tracker}$2a$10$rbIG.Yd0xNbO7/2R85YdI.dngz6L4uxwv3Hfv9aAZDarrS3raLpRO",
+    "roles": [
+      "ROLE_USER"
+    ]
+  },
+  "reporter": {
+    "id": 100001,
+    "name": "tester",
+    "email": "test@inbox.ru",
+    "password": "{tracker}$2a$10$gXpVDAGU./O86fFcmIOJI.97MLTF8Hqf7qDC9QXzfBg0HOgM4rOMS",
+    "roles": [
+      "ROLE_USER"
+    ]
+  },
+  "status": "RESOLVED_ISSUE",
+  "rootBug": null,
+  "rootStory": null,
+  "rootTask": null,
+  "backlog_id": null,
+  "sprint_id": 100005
+}

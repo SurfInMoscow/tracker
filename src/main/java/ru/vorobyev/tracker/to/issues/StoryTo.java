@@ -2,6 +2,7 @@ package ru.vorobyev.tracker.to.issues;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.vorobyev.tracker.domain.issue.*;
 import ru.vorobyev.tracker.domain.issue.workflow.WorkflowStatus;
@@ -9,6 +10,7 @@ import ru.vorobyev.tracker.domain.user.User;
 
 import java.time.LocalDateTime;
 
+@NoArgsConstructor
 @Getter
 @Setter
 public class StoryTo {
