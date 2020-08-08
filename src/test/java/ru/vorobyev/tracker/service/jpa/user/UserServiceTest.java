@@ -52,8 +52,6 @@ public class UserServiceTest extends AbstractJpaServiceTest {
 
         assertNotNull(user);
 
-        assertEquals(Role.ROLE_USER, user.getRoles().iterator().next());
-
         Set<Project> projects = user.getProjects();
 
         assertEquals(2, projects.size());
@@ -65,8 +63,6 @@ public class UserServiceTest extends AbstractJpaServiceTest {
         User user = userService.getByEmail("user@ya.ru");
 
         assertNotNull(user);
-
-        assertEquals(Role.ROLE_USER, user.getRoles().iterator().next());
 
         Set<Project> projects = user.getProjects();
 
