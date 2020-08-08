@@ -3,6 +3,7 @@ package ru.vorobyev.tracker.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.vorobyev.tracker.domain.project.Project;
@@ -34,11 +35,13 @@ public class ProjectRestController {
         this.sprintService = sprintService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/{id}")
     public ProjectTo getProject(@PathVariable int id) {
         return new ProjectTo(projectService.get(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteProject(@PathVariable int id) {
@@ -48,6 +51,7 @@ public class ProjectRestController {
         sprintService.delete(project.getSprint().getId());
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<ProjectTo> saveProject(@RequestBody ProjectTo projectTo) {
         Objects.requireNonNull(projectTo, "Bad request.");
@@ -58,6 +62,7 @@ public class ProjectRestController {
         return ResponseEntity.created(uri).body(new ProjectTo(project));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateProject(@RequestBody ProjectTo projectTo, @PathVariable int id) {

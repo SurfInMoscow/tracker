@@ -17,6 +17,7 @@ INSERT INTO users(email, name, password) VALUES
 
 INSERT INTO user_roles(user_id, roles) VALUES
 (100000, 'ROLE_USER'),
+(100000, 'ROLE_ADMIN'),
 (100001, 'ROLE_USER'),
 (100002, 'ROLE_USER');
 

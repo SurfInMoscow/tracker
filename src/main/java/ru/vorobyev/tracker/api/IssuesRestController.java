@@ -3,6 +3,7 @@ package ru.vorobyev.tracker.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.vorobyev.tracker.domain.issue.*;
@@ -50,31 +51,37 @@ public class IssuesRestController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/bug&id={id}")
     public BugTo getBug(@PathVariable int id) {
         return new BugTo(bugService.get(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/epic&id={id}")
     public EpicTo getEpic(@PathVariable int id) {
         return new EpicTo(epicService.get(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/story&id={id}")
     public StoryTo getStory(@PathVariable int id) {
         return new StoryTo(storyService.get(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/task&id={id}")
     public TaskTo getTask(@PathVariable int id) {
         return new TaskTo(taskService.get(id));
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping(value = "/{type}", consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<AbstractIssue> saveIssue(@RequestBody CommonIssueTo commonIssueTo, @PathVariable String type) {
         return responseFromType(commonIssueTo, type);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping("/{type}&id={id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void deleteIssue(@PathVariable String type, @PathVariable int id) {
@@ -96,6 +103,7 @@ public class IssuesRestController {
         }
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping(value = "/bug&id={id}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateBug(@RequestBody BugTo bug, @PathVariable int id) {
@@ -119,6 +127,7 @@ public class IssuesRestController {
         bugService.save(tmp);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping(value = "/epic&id={id}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateEpic(@RequestBody EpicTo epic, @PathVariable int id) {
@@ -142,6 +151,7 @@ public class IssuesRestController {
         epicService.save(tmp);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping(value = "/story&id={id}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateStory(@RequestBody StoryTo story, @PathVariable int id) {
@@ -165,6 +175,7 @@ public class IssuesRestController {
         storyService.save(tmp);
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping(value = "/task&id={id}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void updateTask(@RequestBody TaskTo task, @PathVariable int id) {

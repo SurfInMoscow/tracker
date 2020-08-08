@@ -1,5 +1,6 @@
 POST http://localhost:8080/api/users
 Content-Type: application/json
+Authorization: Basic user@ya.ru password
 
 {
   "name": "new user",
@@ -15,11 +16,13 @@ Content-Type: application/json
 
 DELETE http://localhost:8080/api/users/100017
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 
 PUT http://localhost:8080/api/users/100000
 Content-Type: application/json
+Authorization: Basic user@ya.ru password
 
 {
   "id": 100000,
@@ -35,11 +38,13 @@ Content-Type: application/json
 ###
 GET http://localhost:8080/api/users/email/user@yea.ru
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 
 GET http://localhost:8080/api/users/100000
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 

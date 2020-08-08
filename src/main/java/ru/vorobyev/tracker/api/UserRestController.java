@@ -3,6 +3,7 @@ package ru.vorobyev.tracker.api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.vorobyev.tracker.domain.user.User;
@@ -26,22 +27,26 @@ public class UserRestController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/{id}")
     public User getUser(@PathVariable int id) {
         return userService.get(id);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/email/{email}")
     public User getByEmail(@PathVariable String email) {
         return userService.getByEmail(email);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping(value = "/{id}", consumes = APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@RequestBody User user) {
         userService.save(user);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping(consumes = APPLICATION_JSON_VALUE)
     public ResponseEntity<User> save(@RequestBody User user) {
         User created = userService.save(user);
@@ -52,6 +57,7 @@ public class UserRestController {
         return ResponseEntity.created(uri).body(created);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void delete(@PathVariable int id) {

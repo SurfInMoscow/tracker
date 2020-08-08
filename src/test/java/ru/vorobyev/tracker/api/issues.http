@@ -1,5 +1,6 @@
 POST http://localhost:8080/api/issues/task
 Content-Type: application/json
+Authorization: Basic user@ya.ru password
 
 {
   "priority": "MEDIUM",
@@ -16,16 +17,19 @@ Content-Type: application/json
 
 DELETE http://localhost:8080/api/issues/epic&id=100015
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 
 GET http://localhost:8080/api/issues/bug&id=100009
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 
 PUT http://localhost:8080/api/issues/bug&id=100009
 Content-Type: application/json
+Authorization: Basic user@ya.ru password
 
 {
   "id": 100009,
@@ -62,11 +66,13 @@ Content-Type: application/json
 
 GET http://localhost:8080/api/issues/epic&id=100015
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 
 PUT http://localhost:8080/api/issues/epic&id=100015
 Content-Type: application/json
+Authorization: Basic user@ya.ru password
 
 {
   "id": 100015,

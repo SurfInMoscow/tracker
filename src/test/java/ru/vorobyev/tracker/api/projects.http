@@ -1,15 +1,18 @@
 GET http://localhost:8080/api/projects/100007
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 
 DELETE http://localhost:8080/api/projects/100007
 Accept: application/json
+Authorization: Basic user@ya.ru password
 
 ###
 
 POST http://localhost:8080/api/projects
 Content-Type: application/json
+Authorization: Basic user@ya.ru password
 
 {
   "name": "Rest Project",
@@ -23,6 +26,7 @@ Content-Type: application/json
 
 PUT http://localhost:8080/api/projects/100007
 Content-Type: application/json
+Authorization: Basic user@ya.ru password
 
 {
   "id": 100007,
