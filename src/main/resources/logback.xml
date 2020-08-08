@@ -11,7 +11,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework.jdbc" level="info"/>
+    <logger name="org.springframework.jdbc" level="debug"/>
     <logger name="org.hibernate.sql" level="debug"/>
     <logger name="org.springframework.web.servlet" level="info"/>
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver" level="info"/>
