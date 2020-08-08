@@ -1,0 +1,47 @@
+GET http://localhost:8080/api/projects/100007
+Accept: application/json
+
+###
+
+DELETE http://localhost:8080/api/projects/100007
+Accept: application/json
+
+###
+
+POST http://localhost:8080/api/projects
+Content-Type: application/json
+
+{
+  "name": "Rest Project",
+  "description": "super rest",
+  "department": "spring",
+  "manager": "user@ya.ru",
+  "administrator": "hello@gmail.ru"
+}
+
+###
+
+PUT http://localhost:8080/api/projects/100007
+Content-Type: application/json
+
+{
+  "id": 100007,
+  "name": "Google ML",
+  "description": "machine learning",
+  "department": "google ml",
+  "manager": "hello@gmail.ru",
+  "administrator": "test@inbox.ru",
+  "participants": [
+    {
+      "id": 100002,
+      "name": "worker",
+      "email": "hello@gmail.ru",
+      "password": "{tracker}$2a$10$LnV17obOMWVPCkUIaXSsH.bF2Nn2DbSzhArqKe09p8aNiY/yQpDIa",
+      "roles": [
+        "ROLE_USER", "ROLE_ADMIN"
+      ]
+    }
+  ]
+}
+
+###
