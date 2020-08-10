@@ -4,7 +4,7 @@
 * java 8/11
 * Maven
 
-###Стэк используемых технологий:
+### Стэк используемых технологий:
 
 * Spring-Boot Web
 * Spring-Boot Security
@@ -17,7 +17,7 @@
 * Bootstrap + Webjars
 * SwaggerUI
 
-###Описание реализации:
+### Описание реализации:
 
 Приложеине реализует логику трекера задач, позволяя пользователям собираться 
 в команды и работать над проектами. В проектах есть администраторы, менеджеры, а также разделение
@@ -69,7 +69,7 @@ db.password=password
 
 * '**jpa**' - работа со слоем хранения через Hibernate ORM.
 
-###Варианты запуска приложения с разными реализациями:
+### Варианты запуска приложения с разными реализациями:
 
 ```
 mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=dev,jpa"
@@ -87,7 +87,7 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod,j
 mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod,jdbc"
 ```
 
-#Обзор работы приложения
+# Обзор работы приложения
 
 При инициализации БД создаются пользователи, с помощью которых можно выполнить вход:
 
