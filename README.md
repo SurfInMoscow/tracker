@@ -87,6 +87,33 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod,j
 mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod,jdbc"
 ```
 
+#### С помощью Docker
+
+- Создадим свою подсеть внутри Docker
+```
+docker network create --subnet=172.18.0.0/16 myNetwork
+```
+
+- Запустим контейнер PostgreSql(скачается при отсутствии) c указанием ip внутри созданной подсети и параметрами
+подключения:
+```
+docker run -d --name myPostgres -e POSTGRES_USER=user -e POSTGRES_PASSWORD=password -e POSTGRES_DB=tracker --net myNetwork --ip 172.18.1.1 postgres
+```
+
+- В pom.xml нужно установить `<packaging>war</packaging>` и в параметрах подключения к БД указать данные, которые мы 
+ввели в шаге выше. Собрать war.
+
+- Собранный архив war нужно перенести в отдельный каталог вместе с файлом Dockerfile, который 
+можно найти в `resources/docker/Dockerfile`. Запустить в данном каталоге:
+```
+docker build --tag tracker .
+```
+
+- Теперь запустим в нашей подсети Docker приложение, оно сможет подключится к PostgreSql.
+```
+docker run --name tracker -d -p 8080:8080 --net myNetwork --ip 172.18.1.2 tracker
+```
+
 # Обзор работы приложения
 
 При инициализации БД создаются пользователи, с помощью которых можно выполнить вход:
