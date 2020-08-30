@@ -16,6 +16,7 @@
 * JSP + JSTL
 * Bootstrap + Webjars
 * SwaggerUI
+* Liquibase
 
 ### Описание реализации:
 
@@ -61,7 +62,8 @@ db.password=password
  и работать по http.
  
 * '**prod**' - приложение доступно по порту 8443 и активирован https, отключено дополнительное логирование.
-Изменений и манипуляций с БД при старте не происходит. Схема уже должна быть инициализирована. Выпущен
+Изменений и манипуляций с БД при старте не происходит. Схема уже должна быть инициализирована с помощью 
+**Liquibase**(заполните ваши параметры подключения к БД в файле `resources/liquibase/liquibase.properties`). Выпущен
 сертификат для localhost - `resources/BugTracker.cer`, который можно установить как доверенный на 
 свою персональныю машину и не получать предупреждений в браузере.
 
@@ -80,10 +82,12 @@ mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=dev,jd
 ```
 
 ```
+mvn liquibase:update
 mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod,jpa"
 ```
 
 ```
+mvn liquibase:update
 mvn spring-boot:run -Dspring-boot.run.arguments="--spring.profiles.active=prod,jdbc"
 ```
 
