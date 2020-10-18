@@ -138,6 +138,7 @@
                 <version>4.0.0</version>
                 <configuration>
                     <propertyFile>src/main/resources/liquibase/liquibase.properties</propertyFile>
+                    <skip>true</skip>
                 </configuration>
                 <executions>
                     <execution>
