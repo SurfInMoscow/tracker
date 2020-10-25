@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Controller
@@ -216,10 +217,12 @@ public class ProjectController {
 
     private boolean checkEmail(String email, HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         boolean check = true;
-        User user;
         try {
+            User user;
             user = userService.getByEmail(email);
+            Objects.requireNonNull(user);
         } catch (Exception e) {
+            email = (email == null || email.equals("")) ? "null" : email;
             req.setAttribute("exception", new ExceptionBean(String.format("User with email:%s not exist.", email)));
             req.getRequestDispatcher("/WEB-INF/templates/error.jsp").forward(req, resp);
             check = false;
