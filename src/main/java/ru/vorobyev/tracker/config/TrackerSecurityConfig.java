@@ -42,6 +42,7 @@ public class TrackerSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/resources/**", "/webjars/**", "/tracker/**", "/").permitAll()
                 .antMatchers("/projects/**", "/issues/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/actuator/**").hasAnyRole("SYSTEM")
                 .anyRequest()
                 .authenticated()
                 .and()

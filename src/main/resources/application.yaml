@@ -6,11 +6,25 @@ spring:
     username: user
     password: password
     driver-class-name: org.postgresql.Driver
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, shutdown
+  endpoint:
+    shutdown:
+      enabled: true
+    health:
+      show-details: always
+checkendpoint:
+  base-path: /actuator
 
 ---
 
 server:
   port: 8080
+checkendpoint:
+  url: http://localhost:8080
 spring:
   profiles: dev
   datasource:
@@ -41,6 +55,8 @@ server:
     key-store-password: 123456
     key-alias: BugTracker
     key-store-provider: SUN
+checkendpoint:
+  url: https://localhost:8443
 spring:
   profiles: prod
   datasource:

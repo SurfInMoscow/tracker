@@ -247,7 +247,8 @@ public class UserJdbcRepositoryImpl implements UserRepository {
         String email = rs.getString("email");
         String name = rs.getString("name");
         String password = rs.getString("password");
-        Role role = rs.getString("roles").equals("ROLE_USER") ? Role.ROLE_USER : Role.ROLE_ADMIN;
+        Role role = rs.getString("roles").equals("ROLE_USER") ? Role.ROLE_USER :
+                rs.getString("roles").equals("ROLE_ADMIN") ? Role.ROLE_ADMIN : Role.ROLE_SYSTEM;
         User user = new User(id, name, email, password, null, role);
         map.putIfAbsent(user.getId(), user);
         map.get(user.getId()).getRoles().add(role);
