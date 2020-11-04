@@ -10,7 +10,7 @@
     </parent>
     <groupId>ru.vorobyev</groupId>
     <artifactId>tracker</artifactId>
-    <version>0.0.2-Release</version>
+    <version>0.0.3-Release</version>
     <name>tracker</name>
     <description>Bug tracker for issues</description>
 
@@ -21,6 +21,7 @@
         <webjars.version>0.32</webjars.version>
         <selenium.version>3.141.59</selenium.version>
         <httpclient.version>4.5.3</httpclient.version>
+        <hikari.version>3.4.5</hikari.version>
     </properties>
 
     <dependencies>
@@ -97,6 +98,11 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>42.2.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.zaxxer</groupId>
+            <artifactId>HikariCP</artifactId>
+            <version>${hikari.version}</version>
         </dependency>
 
 

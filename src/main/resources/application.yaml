@@ -2,10 +2,13 @@ spring:
   banner:
     location: META-INF/banner.txt
   datasource:
-    url: jdbc:postgresql://localhost:5432/tracker
-    username: user
-    password: password
-    driver-class-name: org.postgresql.Driver
+    hikari:
+      jdbc-url: jdbc:postgresql://localhost:5432/tracker
+      username: user
+      password: password
+      driver-class-name: org.postgresql.Driver
+      connection-timeout: 30000
+      maximum-pool-size: 20
 management:
   endpoints:
     web:

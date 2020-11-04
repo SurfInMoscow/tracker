@@ -1,11 +1,11 @@
 package ru.vorobyev.tracker.config;
 
+import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.sql.DataSource;
 
@@ -15,25 +15,33 @@ import javax.sql.DataSource;
         "ru.vorobyev.tracker.repository.jdbc"
 })
 public class TrackerJdbcConfig {
-    @Value("${spring.datasource.url}")
+    @Value("${spring.datasource.hikari.jdbc-url}")
     private String url;
 
-    @Value("${spring.datasource.username}")
+    @Value("${spring.datasource.hikari.username}")
     private String username;
 
-    @Value("${spring.datasource.password}")
+    @Value("${spring.datasource.hikari.password}")
     private String password;
 
-    @Value("${spring.datasource.driver-class-name}")
+    @Value("${spring.datasource.hikari.driver-class-name}")
     private String driverClassName;
+
+    @Value("${spring.datasource.hikari.connection-timeout}")
+    private long connectionTimeout;
+
+    @Value("${spring.datasource.hikari.maximum-pool-size}")
+    private int maximumPoolSize;
 
     @Bean
     public DataSource dataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        HikariDataSource dataSource = new HikariDataSource();
         dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(url);
+        dataSource.setJdbcUrl(url);
         dataSource.setUsername(username);
         dataSource.setPassword(password);
+        dataSource.setConnectionTimeout(connectionTimeout);
+        dataSource.setMaximumPoolSize(maximumPoolSize);
 
         return dataSource;
     }
